@@ -5,13 +5,14 @@ import * as url from "url";
 let win: BrowserWindow = null;
 let menu: Menu = null;
 let tray: Tray = null;
+const iconFile = path.resolve(
+  path.join(__dirname, "src/assets/icons/favicon.png")
+);
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");
 
 function createWindow(): BrowserWindow {
-  const iconFile = path.resolve(
-    path.join(__dirname, "src/assets/icons/favicon.png")
-  );
+
   console.log(iconFile);
   tray = new Tray(iconFile);
   const contextMenu = Menu.buildFromTemplate([
@@ -40,6 +41,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: serve ? true : false,
     },
+    icon: iconFile
   });
 
   if (serve) {
