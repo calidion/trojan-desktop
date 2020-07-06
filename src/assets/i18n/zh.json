@@ -1,0 +1,14 @@
+{
+    "TITLE": "特洛伊",
+    "PAGES": {
+        "HOME": {
+            "TITLE": "应用程序正常工作！",
+            "GO_TO_DETAIL": "Go to Detail"
+        },
+        "DETAIL": {
+          "TITLE": "Detail page !",
+          "BACK_TO_HOME": "Back to Home"
+      }
+    }
+  }
+  
