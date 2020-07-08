@@ -1,9 +1,11 @@
-
 <div class="container">
-  <h1 class="title">
-    <img src="assets/icons/favicon.png" /> Trojan代理客户端
-  </h1>
+  <h1 class="title"><img src="assets/icons/favicon.png" /> Trojan代理客户端</h1>
   <form>
+    <div class="form-group">
+      <label for="cmd">trojan可执行文件</label>
+      <input type="file" class="form-control-file" id="cmd" name="cmd" />
+    </div>
+
     <div class="form-group">
       <label for="local_addr">本地代理服务器地址</label>
       <input
@@ -12,17 +14,19 @@
         id="local_addr"
         placeholder="请输入本地代理服务器地址"
         value="127.0.0.1"
+        name="local_addr"
       />
     </div>
 
     <div class="form-group">
-      <label for="remote_port">本地代理服务器端口</label>
+      <label for="local_port">本地代理服务器端口</label>
       <input
         type="text"
         class="form-control"
-        id="remote_port"
+        id="local_port"
         placeholder="请输入本地代理服务器端口"
-        value=1080
+        value="1080"
+        name="local_port"
       />
     </div>
     <div class="form-group">
@@ -43,7 +47,7 @@
         class="form-control"
         id="remote_port"
         placeholder="请输入服务器端口"
-        value=443
+        value="443"
       />
     </div>
 
@@ -58,8 +62,9 @@
     </div>
     <div class="form-group">
       <label for="certificate">证书</label>
-      <input type="file" class="form-control-file" id="certificate">
+      <input type="file" class="form-control-file" id="certificate" />
     </div>
+
     <button type="submit" class="btn btn-primary">连接</button>
   </form>
   <!-- Content here -->
