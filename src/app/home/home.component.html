@@ -1,71 +1,97 @@
 <div class="container">
-  <h1 class="title"><img src="assets/icons/favicon.png" /> Trojan代理客户端</h1>
+  <h1 class="title">
+    <img src="assets/icons/favicon.png" />&nbsp;{{
+      "PAGES.HOME.TITLE" | translate
+    }}
+  </h1>
   <form>
     <div class="form-group">
-      <label for="cmd">trojan可执行文件</label>
+      <label for="cmd">{{ "PAGES.HOME.FORM_CMD_FILE" | translate }}</label>
       <input type="file" class="form-control-file" id="cmd" name="cmd" />
     </div>
 
     <div class="form-group">
-      <label for="local_addr">本地代理服务器地址</label>
+      <label for="local_addr">{{
+        "PAGES.HOME.FORM_LOCAL_ADDR" | translate
+      }}</label>
       <input
         type="text"
         class="form-control"
         id="local_addr"
-        placeholder="请输入本地代理服务器地址"
+        placeholder="{{ 'PAGES.HOME.FORM_LOCAL_ADDR_DESC' | translate }}"
         value="127.0.0.1"
         name="local_addr"
       />
     </div>
 
     <div class="form-group">
-      <label for="local_port">本地代理服务器端口</label>
+      <label for="local_port">{{
+        "PAGES.HOME.FORM_LOCAL_PORT" | translate
+      }}</label>
       <input
         type="text"
         class="form-control"
         id="local_port"
-        placeholder="请输入本地代理服务器端口"
+        placeholder="{{
+          'PAGES.HOME.FORM_LOCAL_PORT_DESC' | translate
+        }}"
         value="1080"
         name="local_port"
       />
     </div>
     <div class="form-group">
-      <label for="remote_addr">服务器地址</label>
+      <label for="remote_addr">{{
+        "PAGES.HOME.FORM_REMOTE_ADDR" | translate
+      }}</label>
       <input
         type="text"
         class="form-control"
         id="remote_addr"
-        placeholder="请输入服务器地址"
+        placeholder="{{
+          'PAGES.HOME.FORM_REMOTE_ADDR_DESC' | translate
+        }}"
         value="0.0.0.0"
       />
     </div>
 
     <div class="form-group">
-      <label for="remote_port">服务器端口</label>
+      <label for="remote_port">{{
+        'PAGES.HOME.FORM_REMOTE_PORT' | translate
+      }}</label>
       <input
         type="text"
         class="form-control"
         id="remote_port"
-        placeholder="请输入服务器端口"
+        placeholder="{{
+          'PAGES.HOME.FORM_REMOTE_PORT_DESC' | translate
+        }}"
         value="443"
       />
     </div>
 
     <div class="form-group">
-      <label for="password">密码</label>
+      <label for="password">{{
+        "PAGES.HOME.FORM_PASSWORD" | translate
+      }}</label>
       <input
         type="password"
         class="form-control"
         id="password"
-        placeholder="请输入验证密码"
+        placeholder="{{
+          'PAGES.HOME.FORM_PASSWORD_DESC' | translate
+        }}"
       />
     </div>
     <div class="form-group">
-      <label for="certificate">证书</label>
+      <label for="certificate">{{
+        "PAGES.HOME.FORM_CERTIFICATE" | translate
+      }}</label>
       <input type="file" class="form-control-file" id="certificate" />
     </div>
 
-    <button type="submit" class="btn btn-primary">连接</button>
+    <button type="submit" class="btn btn-primary">{{
+      "PAGES.HOME.CONNECT" | translate
+    }}</button>
   </form>
   <!-- Content here -->
 </div>
