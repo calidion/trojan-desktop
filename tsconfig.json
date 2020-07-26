@@ -21,9 +21,10 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
   ],
   "include": [
+    "main/**/*",
     "src/**/*.d.ts"
   ],
   "exclude": [
