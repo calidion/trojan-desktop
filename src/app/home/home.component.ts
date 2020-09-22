@@ -4,7 +4,10 @@ import { Router } from "@angular/router";
 import { existsSync } from "fs";
 
 import { ipcRenderer } from "electron";
+
 import { TranslateService } from "@ngx-translate/core";
+
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 const config = require("../../assets/config.json");
 
@@ -21,8 +24,12 @@ export class HomeComponent implements OnInit {
 
   private strFileStatus: string = "";
 
+  // fa
+  faLink = faLink;
+
   constructor(private router: Router, private translate: TranslateService) {
     console.log(config);
+    console.log(faLink);
   }
 
   ngOnInit(): void {
@@ -50,19 +57,19 @@ export class HomeComponent implements OnInit {
       return false;
     } else {
       this.updateFileStatus("FILE.FOUND", true);
-      this.createProcess();
+      this.createProcess(this.execFile);
     }
     return false;
   }
 
-  async createProcess() {
+  async createProcess(filename: string) {
     console.log("on selected ", this.execFile);
     // if (this.process) {
     //   this.process.kill();
     //   this.process = null;
     // }
 
-    ipcRenderer.send("file-open", this.execFile);
+    ipcRenderer.send("file-open", filename);
 
     // const cmd = this.execFile + " --help";
 
