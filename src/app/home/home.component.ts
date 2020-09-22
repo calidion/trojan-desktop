@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+import { existsSync } from "fs";
+
 import { ipcRenderer } from "electron";
+import { TranslateService } from "@ngx-translate/core";
 
 const config = require("../../assets/config.json");
 
@@ -16,16 +19,44 @@ export class HomeComponent implements OnInit {
   // private process: ChildProcess;
   private execFile: string;
 
-  constructor(private router: Router) {
+  private strFileStatus: string = "";
+
+  constructor(private router: Router, private translate: TranslateService) {
     console.log(config);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateFileStatus("FILE.NOT.SELECTED");
+  }
 
-  async onSelectFile(target) {
-    this.execFile = target.files[0].path;
+  updateFileStatus(i18nID, withAlert = false) {
+    this.translate.get(i18nID).subscribe((title) => {
+      this.strFileStatus = title;
+      if (withAlert) {
+        alert(this.strFileStatus);
+      }
+    });
+  }
 
-    console.log("on selected " , this.execFile);
+  onSubmit() {
+    console.log("on submit");
+    console.log(this.execFile);
+    if (!this.execFile) {
+      this.updateFileStatus("FILE.NOT.SELECTED", true);
+      return false;
+    }
+    if (!existsSync(this.execFile)) {
+      this.updateFileStatus("FILE.NOT.EXIST", true);
+      return false;
+    } else {
+      this.updateFileStatus("FILE.FOUND", true);
+      this.createProcess();
+    }
+    return false;
+  }
+
+  async createProcess() {
+    console.log("on selected ", this.execFile);
     // if (this.process) {
     //   this.process.kill();
     //   this.process = null;
@@ -65,5 +96,9 @@ export class HomeComponent implements OnInit {
     //   console.log(data.toString());
     //   console.log(data);
     // })
+  }
+
+  async onSelectFile(target) {
+    this.execFile = target.files[0].path;
   }
 }

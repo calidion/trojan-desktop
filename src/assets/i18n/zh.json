@@ -21,5 +21,11 @@
       "TITLE": "Detail page !",
       "BACK_TO_HOME": "Back to Home"
     }
+  },
+  "FILE": {
+    "NOT": {
+      "SELECTED": "请选择执行文件!",
+      "FOUND": "文件不存在！"
+    }
   }
 }

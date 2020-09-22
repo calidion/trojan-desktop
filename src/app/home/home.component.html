@@ -4,10 +4,29 @@
       "PAGES.HOME.TITLE" | translate
     }}
   </h1>
+
+  <div class="row">
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit($event.target)">
+        {{ "PAGES.HOME.CONNECT" | translate }}
+      </button>
+    </div>
+    <div class="col-6"></div>
+  </div>
+
+  <hr/>
+  <h1>配置信息</h1>
+
   <form>
     <div class="form-group">
       <label for="cmd">{{ "PAGES.HOME.FORM_CMD_FILE" | translate }}</label>
-      <input type="file" class="form-control-file" id="cmd" name="cmd" (change)="onSelectFile($event.target)" />
+      <input
+        type="file"
+        class="form-control-file"
+        id="cmd"
+        name="cmd"
+        (change)="onSelectFile($event.target)"
+      />
     </div>
 
     <div class="form-group">
@@ -29,7 +48,7 @@
         "PAGES.HOME.FORM_LOCAL_PORT" | translate
       }}</label>
       <input
-        type="text"
+        type="number"
         class="form-control"
         id="local_port"
         placeholder="{{ 'PAGES.HOME.FORM_LOCAL_PORT_DESC' | translate }}"
@@ -55,7 +74,7 @@
         "PAGES.HOME.FORM_REMOTE_PORT" | translate
       }}</label>
       <input
-        type="text"
+        type="number"
         class="form-control"
         id="remote_port"
         placeholder="{{ 'PAGES.HOME.FORM_REMOTE_PORT_DESC' | translate }}"
@@ -78,10 +97,6 @@
       }}</label>
       <input type="file" class="form-control-file" id="certificate" />
     </div>
-
-    <button type="submit" class="btn btn-primary">
-      {{ "PAGES.HOME.CONNECT" | translate }}
-    </button>
   </form>
   <!-- Content here -->
 </div>

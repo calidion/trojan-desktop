@@ -4,12 +4,11 @@
   "description": "Trojan desktop client for Linux, Mac OS, Windows",
   "homepage": "https://github.com/calidion/trojan-desktop",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "calidion",
+    "email": "calidion@gmail.com"
   },
   "keywords": [
     "angular",
-    "angular 9",
     "electron",
     "typescript",
     "eslint",

@@ -1,11 +1,11 @@
 import { app } from "electron";
 
-import { createWindow } from "./main/window";
-import { initTray } from "./main/tray";
+import { createWindow } from "./desktop/src/window";
+import { initTray } from "./desktop/src/tray";
 
-import { initMessage } from "./main/message";
+import { initMessage } from "./desktop/src/message";
 
-import options from "./main/option";
+import options from "./desktop/src/option";
 
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");

@@ -15,11 +15,17 @@ export async function runTrojan(file) {
   });
 
   ls.stdout.on("data", async (data) => {
-    process.send("stdout: " + data.toString());
+    await dialog.showMessageBox(null, {
+      message: "stdout: " + data.toString(),
+    });
+    // process.send("stdout: " + data.toString());
   });
 
   ls.stderr.on("data", async (data) => {
-    process.send("stderr: " + data.toString());
+    await dialog.showMessageBox(null, {
+      message: "stderr: " + data.toString(),
+    });
+    // process.send("stderr: " + data.toString());
 
   });
 
