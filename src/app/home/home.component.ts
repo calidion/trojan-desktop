@@ -7,7 +7,7 @@ import { ipcRenderer } from "electron";
 
 import { TranslateService } from "@ngx-translate/core";
 
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 const config = require("../../assets/config.json");
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   // private process: ChildProcess;
   private execFile: string;
 
-  private strFileStatus: string = "";
+  private strFileStatus = "";
 
   // fa
   faLink = faLink;
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     this.updateFileStatus("FILE.NOT.SELECTED");
   }
 
-  updateFileStatus(i18nID, withAlert = false) {
+  updateFileStatus(i18nID: string, withAlert = false): void {
     this.translate.get(i18nID).subscribe((title) => {
       this.strFileStatus = title;
       if (withAlert) {
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit() : boolean {
     console.log("on submit");
     console.log(this.execFile);
     if (!this.execFile) {
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
     return false;
   }
 
-  async createProcess(filename: string) {
+  createProcess(filename: string): void {
     console.log("on selected ", this.execFile);
     // if (this.process) {
     //   this.process.kill();
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
     // })
   }
 
-  async onSelectFile(target) {
+  onSelectFile(target: HTMLInputElement): void {
     this.execFile = target.files[0].path;
   }
 }
