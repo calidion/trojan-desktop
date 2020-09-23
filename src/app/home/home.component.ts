@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   private strFileStatus = "";
 
-  possibleExecPath = ["/usr/bin/trojan"];
+  possibleExecPath = ["/usr/bin/trojan", "/usr/local/bin/trojan"];
 
   possibleConfigPath = [
     "/usr/local/etc/trojan/config.json",
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
 
   initConfig(): void {
     for (const fsExec of this.possibleExecPath) {
+      console.log("fsExec", fsExec);
       if (existsSync(fsExec)) {
         this.execFile = fsExec;
       }
@@ -115,7 +116,6 @@ export class HomeComponent implements OnInit {
   }
 
   createProcess(filename: string): void {
-    console.log("on selected ", this.execFile);
     // if (this.process) {
     //   this.process.kill();
     //   this.process = null;
