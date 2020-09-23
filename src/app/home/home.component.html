@@ -17,6 +17,12 @@
         {{ "PAGES.HOME.CONNECT" | translate }}
       </button>
     </div>
+
+    <div class="col-12 text-center" *ngIf="execFile">
+      <div class="alert alert-info" role="alert">
+        {{ "FILE.EXE.FOUND" | translate }}
+      </div>
+    </div>
   </div>
 
   <hr />

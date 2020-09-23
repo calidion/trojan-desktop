@@ -20,13 +20,15 @@ import { faLink, faUnlink, faCog } from "@fortawesome/free-solid-svg-icons";
 })
 export class HomeComponent implements OnInit {
   // private process: ChildProcess;
-  private execFile: string;
 
   private strFileStatus = "";
 
-  possiblePath = ["/usr/bin/trojan"];
+  possibleExecPath = ["/usr/bin/trojan"];
 
-  possibleConfigPath = ["/usr/local/etc/trojan/config.json", "/etc/trojan/config.json"];
+  possibleConfigPath = [
+    "/usr/local/etc/trojan/config.json",
+    "/etc/trojan/config.json",
+  ];
   // possibleCertificatePath = ["/usr/local/etc/trojan/fullchain.cer", "/etc/trojan/fullchain.cer"];
 
   connected = false;
@@ -36,10 +38,11 @@ export class HomeComponent implements OnInit {
   selectedError = "";
 
   config: any = {
-    ssl: {
-    },
-    password: [""]
+    ssl: {},
+    password: [""],
   };
+
+  execFile: string;
 
   // fa
   faLink = faLink;
@@ -57,13 +60,20 @@ export class HomeComponent implements OnInit {
   }
 
   initConfig(): void {
+    for (const fsExec of this.possibleExecPath) {
+      if (existsSync(fsExec)) {
+        this.execFile = fsExec;
+      }
+    }
+
     for (const fsPath of this.possibleConfigPath) {
       console.log("fsPath", fsPath);
       if (existsSync(fsPath)) {
         console.log("exist");
         try {
-          const rawText = readFileSync(fsPath)
+          const rawText = readFileSync(fsPath);
           this.config = JSON.parse(String(rawText));
+          this.config.local_port++;
           console.log(this.config);
         } catch (e) {
           this.i18nAlert("FILE.FORMAT.WRONG");
