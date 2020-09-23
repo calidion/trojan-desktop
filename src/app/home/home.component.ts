@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { existsSync } from "fs";
+import { existsSync, constants, accessSync, readFileSync } from "fs";
 
 import { ipcRenderer } from "electron";
 
@@ -9,7 +9,7 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { faLink, faUnlink } from "@fortawesome/free-solid-svg-icons";
 
-const config = require("../../assets/config.json");
+// const config = require("../../assets/config.json");
 
 // console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 
@@ -24,19 +24,47 @@ export class HomeComponent implements OnInit {
 
   private strFileStatus = "";
 
+  possiblePath = ["/usr/bin/trojan"];
+
+  possibleConfigPath = ["/usr/local/etc/trojan/config.json", "/etc/trojan/config.json"];
+  // possibleCertificatePath = ["/usr/local/etc/trojan/fullchain.cer", "/etc/trojan/fullchain.cer"];
+
   connected = false;
+
+  selected = false;
+
+  selectedError = "";
+
+  config: any = {};
 
   // fa
   faLink = faLink;
   faUnlink = faUnlink;
 
   constructor(private router: Router, private translate: TranslateService) {
-    console.log(config);
     console.log(faLink);
   }
 
   ngOnInit(): void {
+    console.log("ng on init");
     this.updateFileStatus("FILE.NOT.SELECTED");
+    this.initConfig();
+  }
+
+  initConfig(): void {
+    for (const fsPath of this.possibleConfigPath) {
+      console.log("fsPath", fsPath);
+      if (existsSync(fsPath)) {
+        console.log("exist");
+        try {
+          const rawText = readFileSync(fsPath)
+          this.config = JSON.parse(String(rawText));
+          console.log(this.config);
+        } catch (e) {
+          this.i18nAlert("FILE.FORMAT.WRONG");
+        }
+      }
+    }
   }
 
   updateFileStatus(i18nID: string, withAlert = false): void {
@@ -48,7 +76,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSubmit() : boolean {
+  i18nAlert(id: string): void {
+    this.translate.get(id).subscribe((title) => {
+      alert(title);
+    });
+  }
+
+  onSubmit(): boolean {
     console.log("on submit");
     console.log(this.execFile);
     if (!this.execFile) {
@@ -108,7 +142,15 @@ export class HomeComponent implements OnInit {
     // })
   }
 
-  onSelectFile(target: HTMLInputElement): void {
+  onSelectFile(target: HTMLInputElement): boolean {
     this.execFile = target.files[0].path;
+    try {
+      accessSync(this.execFile, constants.X_OK);
+    } catch (e) {
+      console.log(e);
+      target.value = "";
+      this.i18nAlert("FILE.NEED.EXECUTABLE");
+      return false;
+    }
   }
 }

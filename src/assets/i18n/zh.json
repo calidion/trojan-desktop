@@ -26,6 +26,12 @@
     "NOT": {
       "SELECTED": "请选择运行文件!",
       "FOUND": "文件不存在！"
+    },
+    "NEED": {
+      "EXECUTABLE": "需要可执行文件!"
+    },
+    "FORMAT": {
+      "WRONG": "文件格式错误"
     }
   },
   "CONFIG": {

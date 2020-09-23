@@ -8,96 +8,68 @@
   <div class="row">
     <div class="col-12 text-center">
       <button type="submit" class="btn btn-primary btn-lg" (click)="onSubmit()">
-        <fa-icon [icon]="faLink" *ngIf="connected"></fa-icon> 
-        <fa-icon [icon]="faUnlink" *ngIf="!connected"></fa-icon> 
+        <fa-icon [icon]="faLink" *ngIf="connected"></fa-icon>
+        <fa-icon [icon]="faUnlink" *ngIf="!connected"></fa-icon>
         {{ "PAGES.HOME.CONNECT" | translate }}
       </button>
     </div>
     <div class="col-6"></div>
   </div>
 
-  <hr/>
+  <hr />
   <h1>{{ "CONFIG.INFO" | translate }}</h1>
 
   <form>
     <div class="form-group">
       <label for="cmd">{{ "PAGES.HOME.FORM_CMD_FILE" | translate }}</label>
-      <input
-        type="file"
-        class="form-control-file"
-        id="cmd"
-        name="cmd"
-        (change)="onSelectFile($event.target)"
-      />
+      <input type="file" class="form-control-file" id="cmd" name="cmd" (change)="onSelectFile($event.target)" />
     </div>
 
     <div class="form-group">
       <label for="local_addr">{{
         "PAGES.HOME.FORM_LOCAL_ADDR" | translate
       }}</label>
-      <input
-        type="text"
-        class="form-control"
-        id="local_addr"
-        placeholder="{{ 'PAGES.HOME.FORM_LOCAL_ADDR_DESC' | translate }}"
-        value="127.0.0.1"
-        name="local_addr"
-      />
+      <input type="text" class="form-control" id="local_addr" name="local_addr"
+        placeholder="{{ 'PAGES.HOME.FORM_LOCAL_ADDR_DESC' | translate }}" value="127.0.0.1" name="local_addr"
+        [(ngModel)]="config.local_addr" />
     </div>
 
     <div class="form-group">
       <label for="local_port">{{
         "PAGES.HOME.FORM_LOCAL_PORT" | translate
       }}</label>
-      <input
-        type="number"
-        class="form-control"
-        id="local_port"
-        placeholder="{{ 'PAGES.HOME.FORM_LOCAL_PORT_DESC' | translate }}"
-        value="1080"
-        name="local_port"
-      />
+      <input type="number" class="form-control" id="local_port" name="local_port"
+        placeholder="{{ 'PAGES.HOME.FORM_LOCAL_PORT_DESC' | translate }}" value="1080" name="local_port"
+        [(ngModel)]="config.local_port" />
     </div>
     <div class="form-group">
       <label for="remote_addr">{{
         "PAGES.HOME.FORM_REMOTE_ADDR" | translate
       }}</label>
-      <input
-        type="text"
-        class="form-control"
-        id="remote_addr"
-        placeholder="{{ 'PAGES.HOME.FORM_REMOTE_ADDR_DESC' | translate }}"
-        value="0.0.0.0"
-      />
+      <input type="text" class="form-control" id="remote_addr" name="remote_addr"
+        placeholder="{{ 'PAGES.HOME.FORM_REMOTE_ADDR_DESC' | translate }}" value="0.0.0.0"
+        [(ngModel)]="config.remote_addr" />
     </div>
 
     <div class="form-group">
       <label for="remote_port">{{
         "PAGES.HOME.FORM_REMOTE_PORT" | translate
       }}</label>
-      <input
-        type="number"
-        class="form-control"
-        id="remote_port"
-        placeholder="{{ 'PAGES.HOME.FORM_REMOTE_PORT_DESC' | translate }}"
-        value="443"
-      />
+      <input type="number" class="form-control" id="remote_port" name="remote_port"
+        placeholder="{{ 'PAGES.HOME.FORM_REMOTE_PORT_DESC' | translate }}" value="443"
+        [(ngModel)]="config.remote_port" />
     </div>
 
     <div class="form-group">
       <label for="password">{{ "PAGES.HOME.FORM_PASSWORD" | translate }}</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        placeholder="{{ 'PAGES.HOME.FORM_PASSWORD_DESC' | translate }}"
-      />
+      <input type="password" class="form-control" id="password" name="password"
+        placeholder="{{ 'PAGES.HOME.FORM_PASSWORD_DESC' | translate }}" [(ngModel)]="config.password[0]" />
     </div>
     <div class="form-group">
       <label for="certificate">{{
         "PAGES.HOME.FORM_CERTIFICATE" | translate
       }}</label>
-      <input type="file" class="form-control-file" id="certificate" />
+      <input type="file" class="form-control-file" id="certificate" name="certificate" />
     </div>
   </form>
   <!-- Content here -->
