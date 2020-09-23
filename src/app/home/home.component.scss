@@ -1,9 +1,17 @@
-:host {
+label {
+  text-align: right;
 }
 
 .title {
+  padding-top: 1em;
   img {
     width: 4rem;
     height: 4rem;
   }
+}
+
+
+.btn.connect {
+  padding-left: 3em;
+  padding-right: 3em;
 }
