@@ -16,7 +16,8 @@ describe('angular-electron App', function () {
 
   it('should display title !', async function () {
     const text = await browser.getText('app-home h1');
-    expect(text).to.include("Trojan代理客户端");
+    console.log(text);
+    expect(text[0]).to.include("Trojan代理客户端");
   });
 
   it('creates initial windows', async function () {

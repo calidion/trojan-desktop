@@ -7,7 +7,7 @@ import { ipcRenderer } from "electron";
 
 import { TranslateService } from "@ngx-translate/core";
 
-import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faUnlink } from "@fortawesome/free-solid-svg-icons";
 
 const config = require("../../assets/config.json");
 
@@ -24,8 +24,11 @@ export class HomeComponent implements OnInit {
 
   private strFileStatus = "";
 
+  connected = false;
+
   // fa
   faLink = faLink;
+  faUnlink = faUnlink;
 
   constructor(private router: Router, private translate: TranslateService) {
     console.log(config);

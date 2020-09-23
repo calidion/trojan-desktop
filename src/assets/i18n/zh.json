@@ -24,8 +24,11 @@
   },
   "FILE": {
     "NOT": {
-      "SELECTED": "请选择执行文件!",
+      "SELECTED": "请选择运行文件!",
       "FOUND": "文件不存在！"
     }
+  },
+  "CONFIG": {
+    "INFO": "配置信息"
   }
 }
