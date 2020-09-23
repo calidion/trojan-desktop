@@ -35,7 +35,11 @@ export class HomeComponent implements OnInit {
 
   selectedError = "";
 
-  config: any = {};
+  config: any = {
+    ssl: {
+    },
+    password: [""]
+  };
 
   // fa
   faLink = faLink;
