@@ -1,14 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { existsSync, constants, accessSync, readFileSync } from "fs";
+import { existsSync, constants, accessSync, readFileSync, writeFileSync } from "fs";
 
 import { ipcRenderer } from "electron";
 
 import { TranslateService } from "@ngx-translate/core";
 
-import { faLink, faUnlink, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faUnlink, faCog, faSave } from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "path";
+
+import { remote } from "electron";
 
 
 // const config = require("../../assets/config.json");
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit {
   faLink = faLink;
   faUnlink = faUnlink;
   faCog = faCog;
+  faSave = faSave;
 
   constructor(private router: Router, private translate: TranslateService) {
     console.log(faLink);
@@ -82,7 +85,6 @@ export class HomeComponent implements OnInit {
         if (config === false) {
           continue;
         }
-        config.local_port++;
         this.config = config;
         console.log(this.config);
         this.configFile = fsPath;
@@ -99,6 +101,16 @@ export class HomeComponent implements OnInit {
       return json;
     } catch (e) {
       this.i18nAlert("FILE.FORMAT.WRONG");
+      return false;
+    }
+  }
+
+  saveConfig(configFile: string) {
+    try {
+      console.log(configFile, this.config);
+      writeFileSync(configFile, JSON.stringify(this.config));
+    } catch (e) {
+      this.i18nAlert("FILE.SAVE.ERROR");
       return false;
     }
   }
@@ -200,6 +212,29 @@ export class HomeComponent implements OnInit {
     console.log(this.config);
     this.configFile = fsPath;
     return;
+  }
+
+  onSave(): void {
+
+  }
+
+  onSaveAs() {
+    const { dialog, app } = remote;
+    var toLocalPath = resolve(app.getPath(
+      "userData"
+    ), "./trojan.json");
+    var userChosenPath = dialog.showSaveDialogSync({ defaultPath: toLocalPath });
+
+    if (existsSync(userChosenPath)) {
+      // dialog.showOpenDialogSync()
+    }
+    try {
+    console.log(userChosenPath);
+    this.saveConfig(userChosenPath);
+    console.log("config file saved!");
+    this.configFile = userChosenPath;
+    } catch(e) {
+    }
   }
 
 }

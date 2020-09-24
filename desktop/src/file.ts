@@ -1,7 +1,43 @@
-import { execFile } from "child_process";
+import { ChildProcess, execFile, execFileSync } from "child_process";
 import { dialog } from "electron";
 
-let ls = null;
+let ls: ChildProcess = null;
+
+export class Trojan {
+  static ls: ChildProcess;
+  runnableFile = "";
+  configFile = "";
+  constructor(runnableFile, configFile) {
+    this.runnableFile = runnableFile;
+    this.configFile = configFile;
+  }
+
+  public run() {
+    if (Trojan.ls) {
+      Trojan.ls.kill();
+    }
+    try {
+      Trojan.ls = execFile(this.runnableFile, ['-c', this.configFile], async (error, stdout, stderr) => {
+
+        if (error) {
+
+          console.error('stderr', stderr);
+
+          throw error;
+
+        }
+
+        console.log('stdout', stdout);
+        console.log('stderr', stderr);
+        console.log('error', error);
+        console.log('ls', ls);
+      });
+    } catch (e) {
+      console.error('error', e);
+
+    }
+  }
+}
 
 export async function runTrojan(file, configFile) {
   console.log("inside runTrojan")
@@ -9,7 +45,7 @@ export async function runTrojan(file, configFile) {
     ls.kill();
     ls = null;
   }
-  ls = execFile(file, [' -c ' + configFile], async (error, stdout, stderr) => {
+  ls = execFile(file, ['-c', configFile], async (error, stdout, stderr) => {
 
     if (error) {
 
@@ -22,6 +58,7 @@ export async function runTrojan(file, configFile) {
     console.log('stdout', stdout);
     console.log('stderr', stderr);
     console.log('error', error);
+    console.log('ls', ls);
 
 
     // await dialog.showMessageBox(null, {
