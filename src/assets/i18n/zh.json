@@ -3,7 +3,8 @@
   "PAGES": {
     "HOME": {
       "TITLE": "Trojan代理客户端",
-      "FORM_CMD_FILE": "Trojan可执行文件",
+      "FORM_CMD_FILE": "请选择Trojan可执行文件",
+      "FORM_CONFIG_FILE": "请选择Trojan可执行文件",
       "FORM_LOCAL_ADDR": "本地代理服务器地址",
       "FORM_LOCAL_ADDR_DESC": "请输入本地代理服务器地址",
       "FORM_LOCAL_PORT": "本地代理服务器端口",
@@ -15,6 +16,8 @@
       "FORM_PASSWORD": "密码",
       "FORM_PASSWORD_DESC": "请输入密码",
       "FORM_CERTIFICATE": "证书",
+      "FORM_LOG_LEVEL": "日志级别",
+      "FORM_LOG_LEVEL_DESC": "设定日志记录的级别",
       "CONNECT": "连接"
     },
     "DETAIL": {
@@ -35,9 +38,20 @@
     },
     "EXE": {
       "FOUND": "可执行文件已找到!"
+    },
+    "CONFIG": {
+      "FOUND": "配置文件已找到!"
     }
   },
   "CONFIG": {
     "INFO": "配置信息"
+  },
+  "TABS": {
+    "TITLES": {
+      "EXE": "可执行文件",
+      "CONFIG": "配置文件",
+      "BASIC": "基本配置",
+      "EXT": "更多配置"
+    }
   }
 }

@@ -8,6 +8,8 @@ import { ipcRenderer } from "electron";
 import { TranslateService } from "@ngx-translate/core";
 
 import { faLink, faUnlink, faCog } from "@fortawesome/free-solid-svg-icons";
+import { resolve } from "path";
+
 
 // const config = require("../../assets/config.json");
 
@@ -26,9 +28,10 @@ export class HomeComponent implements OnInit {
   possibleExecPath = ["/usr/bin/trojan", "/usr/local/bin/trojan"];
 
   possibleConfigPath = [
-    "/usr/local/etc/trojan/config.json",
     "/etc/trojan/config.json",
+    "/usr/local/etc/trojan/config.json",
   ];
+
   // possibleCertificatePath = ["/usr/local/etc/trojan/fullchain.cer", "/etc/trojan/fullchain.cer"];
 
   connected = false;
@@ -37,12 +40,14 @@ export class HomeComponent implements OnInit {
 
   selectedError = "";
 
-  config: any = {
-    ssl: {},
-    password: [""],
-  };
+  config
+
 
   execFile: string;
+  configFile: string;
+
+  // Process Status
+  started = false;
 
   // fa
   faLink = faLink;
@@ -64,6 +69,7 @@ export class HomeComponent implements OnInit {
       console.log("fsExec", fsExec);
       if (existsSync(fsExec)) {
         this.execFile = fsExec;
+        break;
       }
     }
 
@@ -71,15 +77,29 @@ export class HomeComponent implements OnInit {
       console.log("fsPath", fsPath);
       if (existsSync(fsPath)) {
         console.log("exist");
-        try {
-          const rawText = readFileSync(fsPath);
-          this.config = JSON.parse(String(rawText));
-          this.config.local_port++;
-          console.log(this.config);
-        } catch (e) {
-          this.i18nAlert("FILE.FORMAT.WRONG");
+        const config = this.readConfig(fsPath);
+
+        if (config === false) {
+          continue;
         }
+        config.local_port++;
+        this.config = config;
+        console.log(this.config);
+        this.configFile = fsPath;
+        return;
       }
+    }
+    this.config = this.readConfig(resolve(__dirname, "../../assets/config.json"));
+  }
+
+  readConfig(configFile: string) {
+    try {
+      const rawText = readFileSync(configFile);
+      const json = JSON.parse(String(rawText));
+      return json;
+    } catch (e) {
+      this.i18nAlert("FILE.FORMAT.WRONG");
+      return false;
     }
   }
 
@@ -110,18 +130,18 @@ export class HomeComponent implements OnInit {
       return false;
     } else {
       this.updateFileStatus("FILE.FOUND", true);
-      this.createProcess(this.execFile);
+      this.createProcess(this.execFile, this.configFile);
     }
     return false;
   }
 
-  createProcess(filename: string): void {
+  createProcess(filename: string, configFilename: string): void {
     // if (this.process) {
     //   this.process.kill();
     //   this.process = null;
     // }
 
-    ipcRenderer.send("file-open", filename);
+    ipcRenderer.send("file-open", filename, configFilename);
 
     // const cmd = this.execFile + " --help";
 
@@ -168,4 +188,18 @@ export class HomeComponent implements OnInit {
       return false;
     }
   }
+
+  onSelectConfigFile(target: HTMLInputElement): boolean {
+    const fsPath = target.files[0].path;
+    const config = this.readConfig(fsPath);
+
+    if (config === false) {
+      return;
+    }
+    this.config = config;
+    console.log(this.config);
+    this.configFile = fsPath;
+    return;
+  }
+
 }
