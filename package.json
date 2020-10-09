@@ -32,7 +32,7 @@
     "electron:build": "npm run build:prod && electron-builder build",
     "test:watch": "ng test",
     "ci": "ng lint && npm test && npm run e2e",
-    "test": "ng test --watch=false",
+    "test": "ng test --watch=false --code-coverage && xdg-open index.html",
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint"
