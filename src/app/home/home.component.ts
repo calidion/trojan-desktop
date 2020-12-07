@@ -128,6 +128,7 @@ export class HomeComponent implements OnInit {
 
   updateFileStatus(i18nID: string, withAlert = false): void {
     this.translate.get(i18nID).subscribe((title) => {
+      console.log(title);
       this.strFileStatus = title;
       if (withAlert) {
         alert(this.strFileStatus);
