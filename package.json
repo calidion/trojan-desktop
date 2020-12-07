@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "9.0.2",
-  "description": "Angular 11 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "trojan-desktop",
+  "version": "0.1.0",
+  "description": "Trojan desktop client for Linux, Mac OS, Windows",
+  "homepage": "https://github.com/calidion/trojan-desktop",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "calidion",
+    "email": "calidion@gmail.com"
   },
   "keywords": [
     "angular",
@@ -34,13 +34,15 @@
     "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && npx electron . --serve",
     "electron:local": "npm run build:prod && npx electron .",
     "electron:build": "npm run build:prod && electron-builder build",
-    "test": "ng test --watch=false",
     "test:watch": "ng test",
+    "ci": "ng lint && npm test && npm run e2e",
+    "test": "ng test --watch=false --code-coverage",
+    "coverage": "ng test --watch=false --code-coverage && xdg-open index.html",
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "travis": "ng lint && npm run test && npm run e2e && npm run build"
   },
-  "dependencies": {},
   "devDependencies": {
     "@angular-builders/custom-webpack": "10.0.1",
     "@angular-devkit/build-angular": "0.1100.2",
@@ -99,5 +101,15 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "@fortawesome/angular-fontawesome": "~0.6.1",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-brands-svg-icons": "^5.13.0",
+    "@fortawesome/free-regular-svg-icons": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "bootstrap": "4.5.0",
+    "jquery": "3.5.1",
+    "popper.js": "1.16.1"
   }
 }
