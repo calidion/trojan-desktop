@@ -24,7 +24,7 @@
     "src/polyfills.ts",
   ],
   "include": [
-    "main/**/*.d.ts",
+    "desktop/**/*.d.ts",
     "src/**/*.d.ts"
   ],
   "exclude": [

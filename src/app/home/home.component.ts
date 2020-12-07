@@ -1,17 +1,27 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { existsSync, constants, accessSync, readFileSync, writeFileSync } from "fs";
+import {
+  existsSync,
+  constants,
+  accessSync,
+  readFileSync,
+  writeFileSync,
+} from "fs";
 
 import { ipcRenderer } from "electron";
 
 import { TranslateService } from "@ngx-translate/core";
 
-import { faLink, faUnlink, faCog, faSave } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLink,
+  faUnlink,
+  faCog,
+  faSave,
+} from "@fortawesome/free-solid-svg-icons";
 import { resolve } from "path";
 
 import { remote } from "electron";
-
 
 // const config = require("../../assets/config.json");
 
@@ -42,8 +52,7 @@ export class HomeComponent implements OnInit {
 
   selectedError = "";
 
-  config
-
+  config;
 
   execFile: string;
   configFile: string;
@@ -91,10 +100,12 @@ export class HomeComponent implements OnInit {
         return;
       }
     }
-    this.config = this.readConfig(resolve(__dirname, "../../assets/config.json"));
+    this.config = this.readConfig(
+      resolve(__dirname, "../../assets/config.json")
+    );
   }
 
-  readConfig(configFile: string) {
+  readConfig(configFile: string): boolean {
     try {
       const rawText = readFileSync(configFile);
       const json = JSON.parse(String(rawText));
@@ -105,7 +116,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  saveConfig(configFile: string) {
+  saveConfig(configFile: string): boolean {
     try {
       console.log(configFile, this.config);
       writeFileSync(configFile, JSON.stringify(this.config));
@@ -215,26 +226,26 @@ export class HomeComponent implements OnInit {
   }
 
   onSave(): void {
-
+    // TODO: add actions
   }
 
-  onSaveAs() {
+  onSaveAs(): void {
     const { dialog, app } = remote;
-    var toLocalPath = resolve(app.getPath(
-      "userData"
-    ), "./trojan.json");
-    var userChosenPath = dialog.showSaveDialogSync({ defaultPath: toLocalPath });
+    const toLocalPath = resolve(app.getPath("userData"), "./trojan.json");
+    const userChosenPath = dialog.showSaveDialogSync({
+      defaultPath: toLocalPath,
+    });
 
     if (existsSync(userChosenPath)) {
       // dialog.showOpenDialogSync()
     }
     try {
-    console.log(userChosenPath);
-    this.saveConfig(userChosenPath);
-    console.log("config file saved!");
-    this.configFile = userChosenPath;
-    } catch(e) {
+      console.log(userChosenPath);
+      this.saveConfig(userChosenPath);
+      console.log("config file saved!");
+      this.configFile = userChosenPath;
+    } catch (e) {
+      console.error(e);
     }
   }
-
 }

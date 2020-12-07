@@ -1,10 +1,11 @@
 import { ChildProcess, execFile, execFileSync } from "child_process";
 import { dialog } from "electron";
+import { isConfigPortTaken } from "./net";
 
-let ls: ChildProcess = null;
+// let ls: ChildProcess = null;
 
 export class Trojan {
-  static ls: ChildProcess;
+  static ls: ChildProcess = null;
   runnableFile = "";
   configFile = "";
   constructor(runnableFile, configFile) {
@@ -17,80 +18,85 @@ export class Trojan {
       Trojan.ls.kill();
     }
     try {
-      Trojan.ls = execFile(this.runnableFile, ['-c', this.configFile], async (error, stdout, stderr) => {
+      Trojan.ls = execFile(
+        this.runnableFile,
+        ["-c", this.configFile],
+        async (error, stdout, stderr) => {
+          if (error) {
+            console.error("stderr", stderr);
 
-        if (error) {
+            throw error;
+          }
 
-          console.error('stderr', stderr);
-
-          throw error;
-
+          console.log("stdout", stdout);
+          console.log("stderr", stderr);
+          console.log("error", error);
+          console.log("ls", Trojan.ls);
         }
-
-        console.log('stdout', stdout);
-        console.log('stderr', stderr);
-        console.log('error', error);
-        console.log('ls', ls);
-      });
+      );
     } catch (e) {
-      console.error('error', e);
-
+      console.error("error", e);
     }
   }
 }
 
 export async function runTrojan(file, configFile) {
-  console.log("inside runTrojan")
-  if (ls) {
-    ls.kill();
-    ls = null;
+  console.log("inside runTrojan");
+
+  if (await isConfigPortTaken(configFile)) {
+    console.error("port " + configFile.local_port + "is taken");
+    return;
   }
-  ls = execFile(file, ['-c', configFile], async (error, stdout, stderr) => {
 
-    if (error) {
+  if (Trojan.ls) {
+    Trojan.ls.kill();
+    Trojan.ls = null;
+  }
 
-      console.error('stderr', stderr);
+  Trojan.ls = execFile(
+    file,
+    ["-c", configFile],
+    async (error, stdout, stderr) => {
+      if (error) {
+        console.error("stderr", stderr);
 
-      throw error;
+        throw error;
+      }
 
+      console.log("stdout", stdout);
+      console.log("stderr", stderr);
+      console.log("error", error);
+      console.log("ls", Trojan.ls);
+
+      // await dialog.showMessageBox(null, {
+      //   message: "Process created!",
+      // });
+
+      // ls.stdout.on("data", async (data) => {
+      //   await dialog.showMessageBox(null, {
+      //     message: "stdout: " + data.toString(),
+      //   });
+      //   // process.send("stdout: " + data.toString());
+      // });
+
+      // ls.stderr.on("data", async (data) => {
+      //   await dialog.showMessageBox(null, {
+      //     message: "stderr: " + data.toString(),
+      //   });
+      //   // process.send("stderr: " + data.toString());
+
+      // });
+
+      // ls.on("exit", async (code) => {
+      //   process.send("child process exited with code " + code.toString());
+      //   console.log("child process exited with code " + code.toString());
+      // });
+
+      // process.on("message", async (data) => {
+      //   await dialog.showMessageBox(null, {
+      //     message: data.toString(),
+      //   });
+      // })
     }
-
-    console.log('stdout', stdout);
-    console.log('stderr', stderr);
-    console.log('error', error);
-    console.log('ls', ls);
-
-
-    // await dialog.showMessageBox(null, {
-    //   message: "Process created!",
-    // });
-
-    // ls.stdout.on("data", async (data) => {
-    //   await dialog.showMessageBox(null, {
-    //     message: "stdout: " + data.toString(),
-    //   });
-    //   // process.send("stdout: " + data.toString());
-    // });
-
-    // ls.stderr.on("data", async (data) => {
-    //   await dialog.showMessageBox(null, {
-    //     message: "stderr: " + data.toString(),
-    //   });
-    //   // process.send("stderr: " + data.toString());
-
-    // });
-
-    // ls.on("exit", async (code) => {
-    //   process.send("child process exited with code " + code.toString());
-    //   console.log("child process exited with code " + code.toString());
-    // });
-
-    // process.on("message", async (data) => {
-    //   await dialog.showMessageBox(null, {
-    //     message: data.toString(),
-    //   });
-    // })
-
-  });
-
+  );
 }
