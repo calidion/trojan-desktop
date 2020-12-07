@@ -18,7 +18,7 @@ export class AppComponent {
   ) {
     this.translate.setDefaultLang('en');
     this.translate.setDefaultLang('zh');
-    console.log('AppConfig', AppConfig);
+    // console.log('AppConfig', AppConfig);
     this.translate.get("TITLE").subscribe((title) => {
       this.title.setTitle(title);
     });
@@ -26,8 +26,8 @@ export class AppComponent {
     if (electronService.isElectron) {
       console.log(process.env);
       console.log('Run in electron');
-      console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-      console.log('NodeJS childProcess', this.electronService.childProcess);
+      // console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
+      // console.log('NodeJS childProcess', this.electronService.childProcess);
     } else {
       console.log('Run in browser');
     }
