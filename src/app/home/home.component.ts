@@ -67,18 +67,18 @@ export class HomeComponent implements OnInit {
   faSave = faSave;
 
   constructor(private router: Router, private translate: TranslateService) {
-    console.log(faLink);
+    // console.log(faLink);
   }
 
   ngOnInit(): void {
-    console.log("ng on init");
+    // console.log("ng on init");
     this.updateFileStatus("FILE.NOT.SELECTED");
     this.initConfig();
   }
 
   initConfig(): void {
     for (const fsExec of this.possibleExecPath) {
-      console.log("fsExec", fsExec);
+      // console.log("fsExec", fsExec);
       if (existsSync(fsExec)) {
         this.execFile = fsExec;
         break;
@@ -86,16 +86,16 @@ export class HomeComponent implements OnInit {
     }
 
     for (const fsPath of this.possibleConfigPath) {
-      console.log("fsPath", fsPath);
+      // console.log("fsPath", fsPath);
       if (existsSync(fsPath)) {
-        console.log("exist");
+        // console.log("exist");
         const config = this.readConfig(fsPath);
 
         if (config === false) {
           continue;
         }
         this.config = config;
-        console.log(this.config);
+        // console.log(this.config);
         this.configFile = fsPath;
         return;
       }
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit {
 
   saveConfig(configFile: string): boolean {
     try {
-      console.log(configFile, this.config);
+      // console.log(configFile, this.config);
       writeFileSync(configFile, JSON.stringify(this.config));
     } catch (e) {
       this.i18nAlert("FILE.SAVE.ERROR");
@@ -143,8 +143,8 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit(): boolean {
-    console.log("on submit");
-    console.log(this.execFile);
+    // console.log("on submit");
+    // console.log(this.execFile);
     if (!this.execFile) {
       this.updateFileStatus("FILE.NOT.SELECTED", true);
       return false;
@@ -206,7 +206,7 @@ export class HomeComponent implements OnInit {
     try {
       accessSync(this.execFile, constants.X_OK);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       target.value = "";
       this.i18nAlert("FILE.NEED.EXECUTABLE");
       return false;
@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     this.config = config;
-    console.log(this.config);
+    // console.log(this.config);
     this.configFile = fsPath;
     return;
   }
@@ -241,9 +241,9 @@ export class HomeComponent implements OnInit {
       // dialog.showOpenDialogSync()
     }
     try {
-      console.log(userChosenPath);
+      // console.log(userChosenPath);
       this.saveConfig(userChosenPath);
-      console.log("config file saved!");
+      // console.log("config file saved!");
       this.configFile = userChosenPath;
     } catch (e) {
       console.error(e);
