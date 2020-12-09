@@ -21,7 +21,7 @@ describe('angular-electron App', function () {
   it('should display message saying App works !', async function () {
     const elem = await client.$('app-home h1');
     const text = await elem.getText();
-    expect(text).to.equal('App works !');
+    expect(text).to.equal(' App works !');
   });
 
 });
