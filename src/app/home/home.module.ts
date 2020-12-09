@@ -5,9 +5,12 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from "@angular/forms";
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule]
+  imports: [CommonModule, SharedModule, HomeRoutingModule, FontAwesomeModule, FormsModule]
 })
 export class HomeModule {}
