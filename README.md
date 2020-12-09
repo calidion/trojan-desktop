@@ -11,13 +11,13 @@
 
 # Introduction
 
-Bootstrap and package your project with Angular 9 and Electron 8 (Typescript + SASS + Hot Reload) for creating Desktop applications.
+Bootstrap and package your project with Angular 10 and Electron 9 (Typescript + SASS + Hot Reload) for creating Desktop applications.
 
 Currently runs with:
 
-- Angular v9.1.11
-- Electron v9.0.4
-- Electron Builder v22.7.0
+- Angular v11.0.3
+- Electron v11.0.3
+- Electron Builder v22.9.1
 
 With this sample, you can :
 
@@ -27,7 +27,7 @@ With this sample, you can :
 
 /!\ Hot reload only pertains to the renderer process. The main electron process is not able to be hot reloaded, only restarted.
 
-/!\ Angular 9.x CLI needs Node 10.13 or later to work correctly.
+/!\ Angular 11.x CLI needs Node 10.13 or later to work correctly.
 
 ## Getting Started
 
@@ -63,11 +63,19 @@ The application code is managed by `main.ts`. In this sample, the app runs with 
 The Angular component contains an example of Electron and NodeJS native lib import.
 You can disable "Developer Tools" by commenting `win.webContents.openDevTools();` in `main.ts`.
 
+## Use Electron / NodeJS / 3rd party libraries
+
+As see in previous chapter, this sample project runs on both mode (web and electron). To make this happens, **you have to import your dependencies the right way**. Please check `providers/electron.service.ts` to watch how conditional import of libraries has to be done when using electron / NodeJS / 3rd party librairies in renderer context (ie. Angular).
+
+## Browser mode
+
+Maybe you only want to execute the application in the browser with hot reload ? Just run `npm run ng:serve:web`.
+
 ## Included Commands
 
 |Command|Description|
 |--|--|
-|`npm run ng:serve:web`| Execute the app in the browser |
+|`npm run ng:serve`| Execute the app in the browser |
 |`npm run build`| Build the app. Your built files are in the /dist folder. |
 |`npm run build:prod`| Build the app with Angular aot. Your built files are in the /dist folder. |
 |`npm run electron:local`| Builds your application and start electron
@@ -79,10 +87,16 @@ You can disable "Developer Tools" by commenting `win.webContents.openDevTools();
 
 YES! You can do it! Just by importing your library in npm dependencies section (not **devDependencies**) with `npm install --save`. It will be loaded by electron during build phase and added to your final package. Then use your library by importing it in `main.ts` file. Quite simple, isn't it ?
 
-## Browser mode
+## E2E Testing
 
-Maybe you want to execute the application in the browser with hot reload ? Just run `npm run ng:serve:web`.
-**Note that you can't use Electron or NodeJS native libraries in this case.** Please check `providers/electron.service.ts` to watch how conditional import of electron/Native libraries is done.
+E2E Test scripts can be found in `e2e` folder.
+
+|Command|Description|
+|--|--|
+|`npm run e2e`| Execute end to end tests |
+
+Note: To make it work behind a proxy, you can add this proxy exception in your terminal  
+`export {no_proxy,NO_PROXY}="127.0.0.1,localhost"`
 
 ## Branch & Packages version
 
@@ -91,7 +105,9 @@ Maybe you want to execute the application in the browser with hot reload ? Just 
 - Angular 6 & Electron 3 : Branch [angular6](https://github.com/maximegris/angular-electron/tree/angular6)
 - Angular 7 & Electron 3 : Branch [angular7](https://github.com/maximegris/angular-electron/tree/angular7)
 - Angular 8 & Electron 7 : Branch [angular8](https://github.com/maximegris/angular-electron/tree/angular8)
-- Angular 9 & Electron 9 : (master)
+- Angular 9 & Electron 7 : Branch [angular9](https://github.com/maximegris/angular-electron/tree/angular9)
+- Angular 10 & Electron 9 : Branch [angular10](https://github.com/maximegris/angular-electron/tree/angular9)
+- Angular 11 & Electron 10 : (master)
 
 [build-badge]: https://travis-ci.org/maximegris/angular-electron.svg?branch=master&style=style=flat-square
 [build]: https://travis-ci.org/maximegris/angular-electron

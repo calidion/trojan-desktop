@@ -1,5 +1,97 @@
+## <small>9.0.3 (2020-12-08)</small>
+
+* fix/ upgrade angular to 11.0.2 ([203e608](https://github.com/maximegris/angular-electron/commit/203e608))
+* misc/ upgrade dependencies ([922bbf9](https://github.com/maximegris/angular-electron/commit/922bbf9))
+* misc/ upgrade to Electron 11 ([becaa73](https://github.com/maximegris/angular-electron/commit/becaa73))
+
+
+
+## <small>9.0.2 (2020-11-15)</small>
+
+* [Bumped Version] 9.0.2 ([be43e09](https://github.com/maximegris/angular-electron/commit/be43e09))
+* Fix typo in eslint rule ([b8429b8](https://github.com/maximegris/angular-electron/commit/b8429b8))
+* misc/ remove old code ([9933622](https://github.com/maximegris/angular-electron/commit/9933622))
+
+
+
+## <small>9.0.1 (2020-11-14)</small>
+
+* [Bumped Version] 9.0.1 ([066dcdb](https://github.com/maximegris/angular-electron/commit/066dcdb))
+* ref/ support remote module in unit test ([04d9e8a](https://github.com/maximegris/angular-electron/commit/04d9e8a))
+
+
+
+## 9.0.0 (2020-11-14)
+
+* [Bumped Version] 9.0.0 ([a7964be](https://github.com/maximegris/angular-electron/commit/a7964be))
+* misc/ upgrade to Angular 11 ([d265dfa](https://github.com/maximegris/angular-electron/commit/d265dfa))
+
+
+
+## <small>8.0.6 (2020-11-14)</small>
+
+* [Bumped Version] 8.0.6 ([e0fb539](https://github.com/maximegris/angular-electron/commit/e0fb539))
+* fix/ zonejs version ([0b9b8b3](https://github.com/maximegris/angular-electron/commit/0b9b8b3))
+
+
+
+## <small>8.0.5 (2020-09-28)</small>
+
+* [Bumped Version] 8.0.5 ([2374427](https://github.com/maximegris/angular-electron/commit/2374427))
+* misc/ ci - remove fast finish option ([d4ce11d](https://github.com/maximegris/angular-electron/commit/d4ce11d))
+* misc/ enable remote module in renderer process (needed for spectron) ([3309855](https://github.com/maximegris/angular-electron/commit/3309855))
+* misc/ revert electron because spectron cannot handle: electron-userland/spectron#693 ([b1affd0](https://github.com/maximegris/angular-electron/commit/b1affd0)), closes [electron-userland/spectron#693](https://github.com/electron-userland/spectron/issues/693)
+* misc/ upgrade to Electron 10 & Angular 10.1 ([07786a2](https://github.com/maximegris/angular-electron/commit/07786a2))
+
+
+
+## <small>8.0.4 (2020-08-30)</small>
+
+* [Bumped Version] 8.0.4 ([ac3682d](https://github.com/maximegris/angular-electron/commit/ac3682d))
+* fix/ ng lint config ([753f828](https://github.com/maximegris/angular-electron/commit/753f828))
+* fix/ README typo (e2e chapter) ([85aaf86](https://github.com/maximegris/angular-electron/commit/85aaf86))
+* fix/ travis ci conf ([2632a2d](https://github.com/maximegris/angular-electron/commit/2632a2d))
+* misc/ clarify node lib import ([f41ce65](https://github.com/maximegris/angular-electron/commit/f41ce65))
+* misc/ upgrade Electron 10 ([b71c514](https://github.com/maximegris/angular-electron/commit/b71c514))
+* ref/ clean custom webpack target ('electron-renderer' or 'web') ([e3a4e01](https://github.com/maximegris/angular-electron/commit/e3a4e01))
+* Update README.md ([5cf5e2b](https://github.com/maximegris/angular-electron/commit/5cf5e2b))
+* Update README.md ([0b70270](https://github.com/maximegris/angular-electron/commit/0b70270))
+
+
+
+## <small>8.0.3 (2020-08-12)</small>
+
+* [Bumped Version] 8.0.2 ([84598a5](https://github.com/maximegris/angular-electron/commit/84598a5))
+* [Bumped Version] 8.0.3 ([00ce410](https://github.com/maximegris/angular-electron/commit/00ce410))
+* fix/ e2e tests with Spectron ([472afc8](https://github.com/maximegris/angular-electron/commit/472afc8))
+* fix/ require error with nodeIntegration = false ([61c5c6b](https://github.com/maximegris/angular-electron/commit/61c5c6b))
+* misc/ Upgrade Angular (10.0.9) and Electron (9.2.0) ([e3d2fca](https://github.com/maximegris/angular-electron/commit/e3d2fca))
+
+
+
+## <small>8.0.1 (2020-08-12)</small>
+
+* [Bumped Version] 8.0.1 ([e032729](https://github.com/maximegris/angular-electron/commit/e032729))
+* fix/ eslint on main.ts file ([4b17ab6](https://github.com/maximegris/angular-electron/commit/4b17ab6))
+* misc/ remove warinng npm start ( tsconfg.app include key) ([8a73b4a](https://github.com/maximegris/angular-electron/commit/8a73b4a))
+* misc/ upgrade Angular ([a1ef40d](https://github.com/maximegris/angular-electron/commit/a1ef40d))
+
+
+
+## 8.0.0 (2020-07-13)
+
+* [Bumped Version] 8.0.0 ([78a4c9e](https://github.com/maximegris/angular-electron/commit/78a4c9e))
+* added "style" key to "schematics" ([6f5bbc5](https://github.com/maximegris/angular-electron/commit/6f5bbc5))
+* Create FUNDING.yml ([087570a](https://github.com/maximegris/angular-electron/commit/087570a))
+* misc/ update README (Angular & Electron version) ([2d33b15](https://github.com/maximegris/angular-electron/commit/2d33b15))
+* ref/ Upgrade to Angular 10.3 & Electron 9.1 ([84f0519](https://github.com/maximegris/angular-electron/commit/84f0519))
+* Update README.md ([11d0a17](https://github.com/maximegris/angular-electron/commit/11d0a17))
+
+
+
 ## <small>7.2.1 (2020-06-20)</small>
 
+* [Bumped Version] 7.2.1 ([cabd11e](https://github.com/maximegris/angular-electron/commit/cabd11e))
 * ref/ keep only 1 eslint config ([e942747](https://github.com/maximegris/angular-electron/commit/e942747))
 
 
@@ -39,16 +131,11 @@
 
 ## <small>7.0.3 (2020-04-11)</small>
 
+* [Bumped Version] 7.0.2 ([c4c36f6](https://github.com/maximegris/angular-electron/commit/c4c36f6))
 * [Bumped Version] 7.0.3 ([6206066](https://github.com/maximegris/angular-electron/commit/6206066))
+* Fix a typo in README.md ([86ac910](https://github.com/maximegris/angular-electron/commit/86ac910))
 * fix/ polyfills in tsconfig ([cf4f172](https://github.com/maximegris/angular-electron/commit/cf4f172))
 * misc/ changelog ([19f6027](https://github.com/maximegris/angular-electron/commit/19f6027))
-
-
-
-## <small>7.0.2 (2020-04-11)</small>
-
-* [Bumped Version] 7.0.2 ([c4c36f6](https://github.com/maximegris/angular-electron/commit/c4c36f6))
-* Fix a typo in README.md ([86ac910](https://github.com/maximegris/angular-electron/commit/86ac910))
 * misc/ Changelog ([67437ba](https://github.com/maximegris/angular-electron/commit/67437ba))
 * misc/ maj angular 9.1.1 & electron 8.2.1 ([061e01e](https://github.com/maximegris/angular-electron/commit/061e01e))
 * misc/ maj eslint dep ([09fc1f7](https://github.com/maximegris/angular-electron/commit/09fc1f7))
