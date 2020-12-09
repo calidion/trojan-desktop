@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
       }
     }
     this.config = this.readConfig(
-      resolve(__dirname, "../../assets/config.json")
+      resolve(__dirname, "./config.json")
     );
   }
 
