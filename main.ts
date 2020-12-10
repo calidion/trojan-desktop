@@ -1,4 +1,11 @@
 import { app, BrowserWindow, screen } from 'electron';
+
+import { initTray } from "./desktop/src/tray";
+
+import { initMessage } from "./desktop/src/message";
+
+import options from "./desktop/src/option";
+
 import * as path from 'path';
 import * as url from 'url';
 
@@ -58,7 +65,12 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => setTimeout(createWindow, 400));
+  app.on("ready", () => {
+    initTray(options.icon.file, app);
+    initMessage();
+
+    setTimeout(createWindow, 400);
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {

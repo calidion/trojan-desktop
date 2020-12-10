@@ -27,4 +27,13 @@ export class AppComponent {
       console.log('Run in browser');
     }
   }
+
+  ngOnInit(): void {
+    this.translate.setDefaultLang("en");
+    this.translate.setDefaultLang("zh");
+    // console.log('AppConfig', AppConfig);
+    this.translate.get("TITLE").subscribe((title) => {
+      this.title.setTitle(title);
+    });
+  }
 }
