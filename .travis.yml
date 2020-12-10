@@ -1,10 +1,12 @@
 os:
   - linux
-  - osx
+  # - osx
   - windows
 language: node_js
 node_js:
   - 'lts/*'
+services:
+  - xvfb
 before_script:
   - export DISPLAY=:99.0
 install:
