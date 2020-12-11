@@ -6,7 +6,7 @@ export default {
   },
   local: {
     host: "http://localhost:4200",
-    file: path.join(__dirname, "../../dist/index.html"),
+    file: path.join(__dirname, "../../dist/frontend/index.html"),
   },
   electron: {
     module: require(path.join(__dirname, "../../node_modules/electron")),
