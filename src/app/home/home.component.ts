@@ -68,30 +68,29 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateFileStatus("FILE.NOT.SELECTED");
-    this.initConfig();
+    this.initConfig(this.possibleExecPath, this.possibleConfigPath);
   }
 
-  initConfig(): void {
-    for (const fsExec of this.possibleExecPath) {
+  initConfig(execPaths: Array<string>, configPaths: Array<string>): void {
+    this.execFile = this.findFile(execPaths);
+
+    this.configFile = this.findFile(configPaths);
+    if (this.configFile !== "") {
+      this.config = this.readConfig(this.configFile);
+    } else {
+      this.config = this.readConfig(resolve(__dirname, "./config.json"));
+    }
+  }
+
+  findFile(paths: Array<string>): string {
+    let found: string = "";
+    for (const fsExec of paths) {
       if (existsSync(fsExec)) {
-        this.execFile = fsExec;
+        found = fsExec;
         break;
       }
     }
-
-    for (const fsPath of this.possibleConfigPath) {
-      if (existsSync(fsPath)) {
-        const config = this.readConfig(fsPath);
-
-        if (config === false) {
-          continue;
-        }
-        this.config = config;
-        this.configFile = fsPath;
-        return;
-      }
-    }
-    this.config = this.readConfig(resolve(__dirname, "./config.json"));
+    return found;
   }
 
   readConfig(configFile: string): boolean {

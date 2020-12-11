@@ -19,8 +19,8 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../coverage'),
       reports: [ 'html', 'lcovonly' ],
       thresholds: {
-        statements: 0,
-        lines: 0,
+        statements: 80,
+        lines: 80,
         branches: 0,
         functions: 0
       },

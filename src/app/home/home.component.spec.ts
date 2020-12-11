@@ -5,6 +5,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { RouterTestingModule } from "@angular/router/testing";
+import { unlinkSync } from "fs";
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -33,6 +34,29 @@ describe("HomeComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
+
+  it(
+    "should initConfig",
+    waitForAsync(() => {
+      component.initConfig([], []);
+      component.updateFileStatus("FILE.NOT.SELECTED", true);
+      component.onSubmit();
+      expect(component.configFile).toBeFalsy();
+    })
+  );
+
+  it(
+    "should save config",
+    waitForAsync(() => {
+      const tempFile = "./tmp.json";
+      let catched = component.saveConfig(tempFile);
+      expect(catched !== false).toBeTrue();
+
+      unlinkSync(tempFile);
+      catched = component.saveConfig("/");
+      expect(catched === false).toBeTrue();
+    })
+  );
 
   it(
     "should render title in a h1 tag",
