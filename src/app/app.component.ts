@@ -1,10 +1,8 @@
 import { Component } from "@angular/core";
 import { ElectronService } from "./core/services";
 import { TranslateService } from "@ngx-translate/core";
-import { AppConfig } from "../environments/environment";
 
 import { Title } from "@angular/platform-browser";
-
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -16,11 +14,10 @@ export class AppComponent {
     private translate: TranslateService,
     private title: Title
   ) {
-    if (electronService.isElectron) {
-      console.log(process.env);
+    this.translate.setDefaultLang("en");
+
+    if (this.electronService.isElectron) {
       console.log("Run in electron");
-      // console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-      // console.log('NodeJS childProcess', this.electronService.childProcess);
     } else {
       console.log("Run in browser");
     }
@@ -29,7 +26,6 @@ export class AppComponent {
   ngOnInit(): void {
     this.translate.setDefaultLang("en");
     this.translate.setDefaultLang("zh");
-    // console.log('AppConfig', AppConfig);
     this.translate.get("TITLE").subscribe((title) => {
       this.title.setTitle(title);
     });

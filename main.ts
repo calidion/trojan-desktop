@@ -1,18 +1,67 @@
-import { app } from "electron";
+import { app, BrowserWindow, screen } from "electron";
 
-import { createWindow } from "./desktop/src/window";
 import { initTray } from "./desktop/src/tray";
 
 import { initMessage } from "./desktop/src/message";
 
 import options from "./desktop/src/option";
 
+import * as path from "path";
+import * as url from "url";
+
+let win: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === "--serve");
 
-try {
-  app.allowRendererProcessReuse = true;
+function createWindow(): BrowserWindow {
+  const electronScreen = screen;
+  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  const { icon, local } = options;
 
+  // Create the browser window.
+  win = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: size.width,
+    height: size.height,
+    webPreferences: {
+      nodeIntegration: true,
+      allowRunningInsecureContent: serve ? true : false,
+      contextIsolation: false, // false if you want to run 2e2 test with Spectron
+      enableRemoteModule: true, // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
+    },
+    icon: icon.file,
+  });
+
+  if (serve) {
+    win.webContents.openDevTools();
+
+    require("electron-reload")(__dirname, {
+      electron: options.electron.module,
+    });
+    win.loadURL(local.host);
+  } else {
+    win.loadURL(
+      url.format({
+        pathname: options.local.file,
+        protocol: "file:",
+        slashes: true,
+      })
+    );
+  }
+
+  // Emitted when the window is closed.
+  win.on("closed", () => {
+    // Dereference the window object, usually you would store window
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    win = null;
+  });
+
+  return win;
+}
+
+try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
@@ -21,7 +70,7 @@ try {
     initTray(options.icon.file, app);
     initMessage();
 
-    setTimeout(createWindow(options, serve, app), 400);
+    setTimeout(createWindow, 400);
   });
 
   // Quit when all windows are closed.
@@ -36,7 +85,9 @@ try {
   app.on("activate", () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    createWindow(options, serve, app)();
+    if (win === null) {
+      createWindow();
+    }
   });
 } catch (e) {
   // Catch Error

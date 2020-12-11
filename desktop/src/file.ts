@@ -27,11 +27,6 @@ export class Trojan {
 
             throw error;
           }
-
-          console.log("stdout", stdout);
-          console.log("stderr", stderr);
-          console.log("error", error);
-          console.log("ls", Trojan.ls);
         }
       );
     } catch (e) {
@@ -41,8 +36,6 @@ export class Trojan {
 }
 
 export async function runTrojan(file, configFile) {
-  console.log("inside runTrojan");
-
   if (await isConfigPortTaken(configFile)) {
     console.error("port " + configFile.local_port + "is taken");
     return;
@@ -62,11 +55,6 @@ export async function runTrojan(file, configFile) {
 
         throw error;
       }
-
-      console.log("stdout", stdout);
-      console.log("stderr", stderr);
-      console.log("error", error);
-      console.log("ls", Trojan.ls);
 
       // await dialog.showMessageBox(null, {
       //   message: "Process created!",

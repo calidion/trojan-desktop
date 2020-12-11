@@ -96,7 +96,7 @@
           <div class="col-sm-8">
             <input type="text" class="form-control" id="local_addr" name="local_addr"
               placeholder="{{ 'PAGES.HOME.FORM_LOCAL_ADDR_DESC' | translate }}" value="127.0.0.1" name="local_addr"
-              [(ngModel)]="config.local_addr" />
+              [(ngModel)]="config.local_addr" *ngIf="config"/>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
           <div class="col-sm-8">
             <input type="number" class="form-control" id="local_port" name="local_port"
               placeholder="{{ 'PAGES.HOME.FORM_LOCAL_PORT_DESC' | translate }}" value="1080" name="local_port"
-              [(ngModel)]="config.local_port" />
+              [(ngModel)]="config.local_port" *ngIf="config"/>
           </div>
         </div>
         <div class="form-group row">
@@ -115,7 +115,7 @@
           <div class="col-sm-8">
             <input type="text" class="form-control" id="remote_addr" name="remote_addr"
               placeholder="{{ 'PAGES.HOME.FORM_REMOTE_ADDR_DESC' | translate }}" value="0.0.0.0"
-              [(ngModel)]="config.remote_addr" />
+              [(ngModel)]="config.remote_addr" *ngIf="config"/>
           </div>
         </div>
 
@@ -125,7 +125,7 @@
           <div class="col-sm-8">
             <input type="number" class="form-control" id="remote_port" name="remote_port"
               placeholder="{{ 'PAGES.HOME.FORM_REMOTE_PORT_DESC' | translate }}" value="443"
-              [(ngModel)]="config.remote_port" />
+              [(ngModel)]="config.remote_port" *ngIf="config"/>
           </div>
         </div>
 
@@ -136,7 +136,7 @@
 
           <div class="col-sm-8">
             <input type="password" class="form-control" id="password" name="password"
-              placeholder="{{ 'PAGES.HOME.FORM_PASSWORD_DESC' | translate }}" [(ngModel)]="config.password[0]" />
+              placeholder="{{ 'PAGES.HOME.FORM_PASSWORD_DESC' | translate }}" [(ngModel)]="config.password[0]" *ngIf="config && config.password"/>
           </div>
         </div>
         <div class="form-group row">
@@ -170,7 +170,7 @@
           <div class="col-sm-8">
             <input type="text" class="form-control" id="log_level" name="log_level"
               placeholder="{{ 'PAGES.HOME.FORM_LOG_LEVEL_DESC' | translate }}" value="127.0.0.1" name="log_level"
-              [(ngModel)]="config.log_level" />
+              [(ngModel)]="config.log_level" *ngIf="config"/>
           </div>
         </div>
       </form>

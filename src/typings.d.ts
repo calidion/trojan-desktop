@@ -1,5 +1,5 @@
 /* SystemJS module definition */
-declare let nodeModule: NodeModule;
+declare const nodeModule: NodeModule;
 interface NodeModule {
   id: string;
 }

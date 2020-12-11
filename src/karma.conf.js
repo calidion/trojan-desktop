@@ -23,7 +23,8 @@ module.exports = function (config) {
         lines: 0,
         branches: 0,
         functions: 0
-      }
+      },
+      fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
@@ -40,7 +41,8 @@ module.exports = function (config) {
           webPreferences: {
             nodeIntegration: true,
             nodeIntegrationInSubFrames: true,
-            allowRunningInsecureContent: true
+            allowRunningInsecureContent: true,
+            enableRemoteModule: true
           }
         }
       }
