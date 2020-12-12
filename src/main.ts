@@ -7,8 +7,8 @@ import { AppConfig } from './environments/environment';
 import "jquery";
 import "bootstrap";
 
-declare let jQuery: any;
-declare let $: any;
+// declare let jQuery: any;
+// declare let $: any;
 
 if (AppConfig.production) {
   enableProdMode();

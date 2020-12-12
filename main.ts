@@ -6,7 +6,6 @@ import { initMessage } from "./desktop/src/message";
 
 import options from "./desktop/src/option";
 
-import * as path from "path";
 import * as url from "url";
 
 let win: BrowserWindow = null;
