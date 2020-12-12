@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "declaration": false,
-    "outDir": "./dist/desktop/test",
+    "outDir": "../dist/desktop/test",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -22,7 +22,7 @@
     ]
   },
   "files": [
-    "e2e/main.e2e.ts"
+    "main.e2e.ts"
   ],
   "exclude": [
     "node_modules"
