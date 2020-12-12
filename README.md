@@ -1,17 +1,11 @@
-[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
+[![Trojan Logo](./src/assets/icons/favicon.ico)](https://trojan-gfw.github.io/trojan/)
 
-![Maintained][maintained-badge]
+# A Simple Trojan Client
+
 [![Travis Build Status][build-badge]][build]
-[![Make a pull request][prs-badge]][prs]
-[![License](http://img.shields.io/badge/Licence-MIT-brightgreen.svg)](LICENSE.md)
 
-[![Watch on GitHub][github-watch-badge]][github-watch]
-[![Star on GitHub][github-star-badge]][github-star]
-[![Tweet][twitter-badge]][twitter]
 
 # Introduction
-
-Bootstrap and package your project with Angular 10 and Electron 9 (Typescript + SASS + Hot Reload) for creating Desktop applications.
 
 Currently runs with:
 
@@ -98,27 +92,6 @@ E2E Test scripts can be found in `e2e` folder.
 Note: To make it work behind a proxy, you can add this proxy exception in your terminal  
 `export {no_proxy,NO_PROXY}="127.0.0.1,localhost"`
 
-## Branch & Packages version
 
-- Angular 4 & Electron 1 : Branch [angular4](https://github.com/maximegris/angular-electron/tree/angular4)
-- Angular 5 & Electron 1 : Branch [angular5](https://github.com/maximegris/angular-electron/tree/angular5)
-- Angular 6 & Electron 3 : Branch [angular6](https://github.com/maximegris/angular-electron/tree/angular6)
-- Angular 7 & Electron 3 : Branch [angular7](https://github.com/maximegris/angular-electron/tree/angular7)
-- Angular 8 & Electron 7 : Branch [angular8](https://github.com/maximegris/angular-electron/tree/angular8)
-- Angular 9 & Electron 7 : Branch [angular9](https://github.com/maximegris/angular-electron/tree/angular9)
-- Angular 10 & Electron 9 : Branch [angular10](https://github.com/maximegris/angular-electron/tree/angular9)
-- Angular 11 & Electron 10 : (master)
-
-[build-badge]: https://travis-ci.org/maximegris/angular-electron.svg?branch=master&style=style=flat-square
-[build]: https://travis-ci.org/maximegris/angular-electron
-[license-badge]: https://img.shields.io/badge/license-Apache2-blue.svg?style=style=flat-square
-[license]: https://github.com/maximegris/angular-electron/blob/master/LICENSE.md
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-[prs]: http://makeapullrequest.com
-[github-watch-badge]: https://img.shields.io/github/watchers/maximegris/angular-electron.svg?style=social
-[github-watch]: https://github.com/maximegris/angular-electron/watchers
-[github-star-badge]: https://img.shields.io/github/stars/maximegris/angular-electron.svg?style=social
-[github-star]: https://github.com/maximegris/angular-electron/stargazers
-[twitter]: https://twitter.com/intent/tweet?text=Check%20out%20angular-electron!%20https://github.com/maximegris/angular-electron%20%F0%9F%91%8D
-[twitter-badge]: https://img.shields.io/twitter/url/https/github.com/maximegris/angular-electron.svg?style=social
-[maintained-badge]: https://img.shields.io/badge/maintained-yes-brightgreen
+[build-badge]: https://travis-ci.com/calidion/trojan-desktop.svg?branch=master
+[build]: https://travis-ci.com/github/calidion/trojan-desktop
