@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
     if (this.configFile !== "") {
       this.config = this.readConfig(this.configFile);
     } else {
-      this.config = this.readConfig(resolve(__dirname, "./config.json"));
+      this.config = this.readConfig(resolve(__dirname, "../../assets/config.json"));
     }
   }
 
@@ -128,17 +128,24 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSubmit(): boolean {
-    if (!this.execFile) {
+  onDisConnect(): boolean {
+    return true;
+  }
+  onConnect(): boolean {
+    return this.connect(this.execFile, this.configFile);
+  }
+
+  connect(execFile: string, configFile: string): boolean {
+    if (!execFile) {
       this.updateFileStatus("FILE.NOT.SELECTED", true);
       return false;
     }
-    if (!existsSync(this.execFile)) {
+    if (!existsSync(execFile)) {
       this.updateFileStatus("FILE.NOT.EXIST", true);
       return false;
     } else {
       this.updateFileStatus("FILE.FOUND", true);
-      this.createProcess(this.execFile, this.configFile);
+      this.createProcess(execFile, configFile);
     }
     return false;
   }
@@ -147,27 +154,36 @@ export class HomeComponent implements OnInit {
     ipcRenderer.send("file-open", filename, configFilename);
   }
 
-  onSelectFile(target: HTMLInputElement): boolean {
-    this.execFile = target.files[0].path;
+  onSelectExeFile(target: HTMLInputElement): void {
+    const tempfile = target.files[0].path;
+    if (this.checkExeFile(this.execFile)) {
+      this.execFile = tempfile;
+    }
+  }
+
+  checkExeFile(execFile: string): boolean {
     try {
-      accessSync(this.execFile, constants.X_OK);
+      accessSync(execFile, constants.X_OK);
+      return true;
     } catch (e) {
-      target.value = "";
       this.i18nAlert("FILE.NEED.EXECUTABLE");
       return false;
     }
   }
 
-  onSelectConfigFile(target: HTMLInputElement): boolean {
-    const fsPath = target.files[0].path;
-    const config = this.readConfig(fsPath);
+  onSelectConfigFile(target: HTMLInputElement): void {
+    this.updateConfigWithFile(target.files[0].path);
+  }
+
+  updateConfigWithFile(filename: string): boolean {
+    const config = this.readConfig(filename);
 
     if (config === false) {
-      return;
+      return false;
     }
     this.config = config;
-    this.configFile = fsPath;
-    return;
+    this.configFile = filename;
+    return true;
   }
 
   onSave(): void {

@@ -5,7 +5,9 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { RouterTestingModule } from "@angular/router/testing";
-import { unlinkSync } from "fs";
+import { unlinkSync, openSync, closeSync, chmodSync, existsSync, writeFileSync } from "fs";
+
+const config = require("../../assets/config.json");
 
 describe("HomeComponent", () => {
   let component: HomeComponent;
@@ -40,7 +42,8 @@ describe("HomeComponent", () => {
     waitForAsync(() => {
       component.initConfig([], []);
       component.updateFileStatus("FILE.NOT.SELECTED", true);
-      component.onSubmit();
+      component.onConnect();
+      component.onDisConnect();
       expect(component.configFile).toBeFalsy();
     })
   );
@@ -65,6 +68,36 @@ describe("HomeComponent", () => {
       expect(compiled.querySelector("h1").textContent).toContain(
         "PAGES.HOME.TITLE"
       );
+    })
+  );
+
+  it(
+    "should connect to electron",
+    waitForAsync(() => {
+      component.connect("aaa", "bbb");
+      const filename = "./tmp";
+      var fd = openSync(filename, "w");
+      closeSync(fd);
+      component.connect(filename, "bbb");
+      expect(component.checkExeFile(filename)).toBeFalse();
+      chmodSync(filename, 0o755);
+      expect(component.checkExeFile(filename)).toBeTrue();
+      unlinkSync(filename);
+    })
+  );
+
+  it(
+    "should update config file",
+    waitForAsync(() => {
+      const filename = "./config.json";
+      var fd = openSync(filename, "w");
+      writeFileSync(fd, JSON.stringify(config));
+      closeSync(fd);
+      console.log(filename);
+      expect(existsSync(filename)).toBeTrue();
+      expect(component.updateConfigWithFile(filename)).toBeTrue();
+      expect(component.updateConfigWithFile(filename + "1")).toBeFalse();
+      unlinkSync(filename);
     })
   );
 });

@@ -7,9 +7,13 @@
 
   <div class="row">
     <div class="col-12 text-center">
-      <button type="submit" class="btn btn-primary btn-lg connect" (click)="onSubmit()">
-        <fa-icon [icon]="faLink" *ngIf="connected"></fa-icon>
-        <fa-icon [icon]="faUnlink" *ngIf="!connected"></fa-icon>
+
+      <button type="submit" class="btn btn-primary btn-lg connect" *ngIf="connected" (click)="onDisConnect()">
+        <fa-icon [icon]="faUnlink" ></fa-icon>
+        {{ "PAGES.HOME.DISCONNECT" | translate }}
+      </button>
+      <button type="submit" class="btn btn-primary btn-lg connect" *ngIf="!connected" (click)="onConnect()">
+        <fa-icon [icon]="faLink" ></fa-icon>
         {{ "PAGES.HOME.CONNECT" | translate }}
       </button>
     </div>
@@ -58,7 +62,7 @@
         }}</label>
           <div class="col-sm-8">
             <input type="file" class="form-control-file form-control-sm" id="cmd" name="cmd"
-              (change)="onSelectFile($event.target)" />
+              (change)="onSelectExeFile($event.target)" />
           </div>
         </div>
         <div class="col-12 text-center" *ngIf="execFile">
