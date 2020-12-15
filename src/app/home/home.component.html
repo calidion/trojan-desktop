@@ -8,11 +8,11 @@
   <div class="row">
     <div class="col-12 text-center">
 
-      <button type="submit" class="btn btn-primary btn-lg connect" *ngIf="connected" (click)="onDisConnect()">
+      <button type="submit" class="btn btn-primary btn-lg disconnected" *ngIf="connected" (click)="onDisConnect()">
         <fa-icon [icon]="faUnlink" ></fa-icon>
         {{ "PAGES.HOME.DISCONNECT" | translate }}
       </button>
-      <button type="submit" class="btn btn-primary btn-lg connect" *ngIf="!connected" (click)="onConnect()">
+      <button type="submit" class="btn btn-primary btn-lg connected" *ngIf="!connected" (click)="onConnect()">
         <fa-icon [icon]="faLink" ></fa-icon>
         {{ "PAGES.HOME.CONNECT" | translate }}
       </button>

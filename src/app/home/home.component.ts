@@ -7,6 +7,8 @@ import {
   accessSync,
   readFileSync,
   writeFileSync,
+  openSync,
+  closeSync,
 } from "fs";
 
 import { ipcRenderer } from "electron";
@@ -107,6 +109,7 @@ export class HomeComponent implements OnInit {
   saveConfig(configFile: string): boolean {
     try {
       writeFileSync(configFile, JSON.stringify(this.config));
+      return true;
     } catch (e) {
       this.i18nAlert("FILE.SAVE.ERROR");
       return false;
@@ -186,8 +189,15 @@ export class HomeComponent implements OnInit {
     return true;
   }
 
+  save(filename, config) : void {
+    const fd = openSync(filename, "w");
+    writeFileSync(fd, JSON.stringify(config));
+    closeSync(fd);
+  }
+
   onSave(): void {
     // TODO: add actions
+    this.save(this.configFile, this.config);
   }
 
   onSaveAs(): void {
@@ -197,14 +207,12 @@ export class HomeComponent implements OnInit {
       defaultPath: toLocalPath,
     });
 
-    if (existsSync(userChosenPath)) {
+    if (!existsSync(userChosenPath)) {
       // dialog.showOpenDialogSync()
-    }
-    try {
-      this.saveConfig(userChosenPath);
+      this.configFile = toLocalPath;
+    } else {
       this.configFile = userChosenPath;
-    } catch (e) {
-      console.error(e);
     }
+    this.save(this.configFile, this.config);
   }
 }
