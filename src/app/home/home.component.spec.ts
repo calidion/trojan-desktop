@@ -22,6 +22,18 @@ import { By } from "@angular/platform-browser";
 
 const config = require("../../assets/config.json");
 
+declare global {
+  namespace NodeJS {
+    interface Global {
+      alert(title: string): void;
+    }
+  }
+}
+
+global.alert = function (title: string) {
+  console.log("inside alert", title);
+};
+
 describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
@@ -104,41 +116,55 @@ describe("HomeComponent", () => {
     waitForAsync(() => {
       spyOn(component, "onConnect");
       spyOn(component, "onDisConnect");
-      const hostElement = fixture.debugElement.nativeElement;
-
-      // const disconnected: HTMLButtonElement = hostElement.querySelector(
-      //   ".disconnected"
-      // );
-      // console.log(disconnected);
       const connected: HTMLButtonElement = fixture.nativeElement.querySelector(
         ".connected"
       );
-      // console.log(disconnected);
-      console.log(connected);
 
-      const click = new Event("click");
-      // console.log(select);
-      // disconnected.click();
+      expect(connected).toBeTruthy();
       connected.click();
-
-      // tick();
-
-      // expect(component.onDisConnect).toHaveBeenCalledTimes(1);
       expect(component.onConnect).toHaveBeenCalledTimes(1);
       expect(component.onDisConnect).toHaveBeenCalledTimes(0);
+    })
+  );
 
-      // expect(component.connected).toBeTrue();
+  it(
+    "should clicked to disconnect",
+    waitForAsync(() => {
+      spyOn(component, "onConnect");
+      spyOn(component, "onDisConnect");
+
+      component.connected = true;
+
+      fixture.detectChanges();
+
+      const disconnected: HTMLButtonElement = fixture.nativeElement.querySelector(
+        ".disconnected"
+      );
+
+      expect(disconnected).toBeTruthy();
 
 
+      disconnected.click();
 
-      // const select: HTMLInputElement = fixture.nativeElement.querySelector(
-      //   "#cmd"
-      // );
-      // const change = new Event("click");
+      expect(component.onConnect).toHaveBeenCalledTimes(0);
+      expect(component.onDisConnect).toHaveBeenCalledTimes(1);
+    })
+  );
 
-      // select.dispatchEvent(change);
+  it(
+    "should select files",
+    waitForAsync(() => {
+      spyOn(component, "onSelectExeFile");
+
+      const select: HTMLInputElement = fixture.nativeElement.querySelector(
+        "#cmd"
+      );
+      expect(select).toBeTruthy();
+
+      const change = new Event("change");
+      select.dispatchEvent(change);
       // fixture.detectChanges();
-      // expect(component.onSelectExeFile).toHaveBeenCalledTimes(1);
+      expect(component.onSelectExeFile).toHaveBeenCalledTimes(1);
     })
   );
 
@@ -148,10 +174,6 @@ describe("HomeComponent", () => {
       const filename = "./config.json";
 
       component.save(filename, config);
-      // var fd = openSync(filename, "w");
-      // writeFileSync(fd, JSON.stringify(config));
-      // closeSync(fd);
-      // console.log(filename);
       expect(existsSync(filename)).toBeTrue();
       expect(component.updateConfigWithFile(filename)).toBeTrue();
       expect(component.updateConfigWithFile(filename + "1")).toBeFalse();
