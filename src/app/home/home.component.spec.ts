@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+  tick,
+} from "@angular/core/testing";
 
 import { HomeComponent } from "./home.component";
 import { TranslateModule } from "@ngx-translate/core";
@@ -91,33 +96,39 @@ describe("HomeComponent", () => {
       chmodSync(filename, 0o755);
       expect(component.checkExeFile(filename)).toBeTrue();
       unlinkSync(filename);
+    })
+  );
 
+  it(
+    "should clicked to connect",
+    waitForAsync(() => {
+      spyOn(component, "onConnect");
+      spyOn(component, "onDisConnect");
+      const hostElement = fixture.debugElement.nativeElement;
 
-      // const hostElement = fixture.nativeElement;
-
-      // const disconnected: HTMLInputElement = hostElement.querySelector(
+      // const disconnected: HTMLButtonElement = hostElement.querySelector(
       //   ".disconnected"
       // );
       // console.log(disconnected);
-      // const connected: HTMLInputElement = fixture.nativeElement.querySelector(
-      //   ".connected"
-      // );
+      const connected: HTMLButtonElement = fixture.nativeElement.querySelector(
+        ".connected"
+      );
       // console.log(disconnected);
-      // console.log(connected);
+      console.log(connected);
 
+      const click = new Event("click");
+      // console.log(select);
+      // disconnected.click();
+      connected.click();
 
-      // disconnected.value = "disconnected";
-      // connected.value = "connected";
-      
-      // fixture.detectChanges();
+      // tick();
 
-      // const click = new Event("click");
-      // // console.log(select);
-      // disconnected.dispatchEvent(click);
-      // connected.dispatchEvent(click);
-      // fixture.detectChanges();
       // expect(component.onDisConnect).toHaveBeenCalledTimes(1);
-      // expect(component.onConnect).toHaveBeenCalledTimes(1);
+      expect(component.onConnect).toHaveBeenCalledTimes(1);
+      expect(component.onDisConnect).toHaveBeenCalledTimes(0);
+
+      // expect(component.connected).toBeTrue();
+
 
 
       // const select: HTMLInputElement = fixture.nativeElement.querySelector(
