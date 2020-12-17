@@ -147,7 +147,7 @@ export class HomeComponent implements OnInit {
       this.updateFileStatus("FILE.NOT.EXIST", true);
       return false;
     } else {
-      this.updateFileStatus("FILE.FOUND", true);
+      this.updateFileStatus("FILE.EXE.FOUND", true);
       this.connected = true;
       this.createProcess(execFile, configFile);
     }

@@ -19,6 +19,7 @@
       "FORM_LOG_LEVEL": "日志级别",
       "FORM_LOG_LEVEL_DESC": "设定日志记录的级别",
       "CONNECT": "连接",
+      "DISCONNECT": "断开",
       "SAVE": "保存",
       "SAVE_AS": "另存为..."
     },
