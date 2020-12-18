@@ -156,6 +156,9 @@ export class HomeComponent implements OnInit {
 
   createProcess(filename: string, configFilename: string): void {
     ipcRenderer.send("file-open", filename, configFilename);
+    ipcRenderer.on("run", (event, value) => {
+      console.log("inside ipc render on run", event, value);
+    });
   }
 
   onSelectExeFile(target: HTMLInputElement): void {

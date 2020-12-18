@@ -1,6 +1,9 @@
 import { ChildProcess, execFile, execFileSync } from "child_process";
-import { dialog } from "electron";
-import { isConfigPortTaken } from "./net";
+import { isPortTaken } from "./net";
+import { readFile } from "fs";
+import { promisify } from "util";
+
+const asyncReadFile = promisify(readFile);
 
 // let ls: ChildProcess = null;
 
@@ -36,9 +39,13 @@ export class Trojan {
 }
 
 export async function runTrojan(file, configFile) {
-  if (await isConfigPortTaken(configFile)) {
-    console.error("port " + configFile.local_port + "is taken");
-    return;
+  console.log(file, configFile);
+  const json: any = JSON.parse(String(await asyncReadFile(configFile)));
+  console.log(json);
+
+  if (await isPortTaken(json.local_port)) {
+    console.error("port " + json.local_port + " is taken");
+    return false;
   }
 
   if (Trojan.ls) {
@@ -87,4 +94,5 @@ export async function runTrojan(file, configFile) {
       // })
     }
   );
+  return true;
 }
