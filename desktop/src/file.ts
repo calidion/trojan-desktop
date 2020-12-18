@@ -1,4 +1,4 @@
-import { ChildProcess, execFile, execFileSync } from "child_process";
+import { ChildProcess, execFile, execFileSync, exec } from "child_process";
 import { isPortTaken } from "./net";
 import { readFile } from "fs";
 import { promisify } from "util";
@@ -36,6 +36,37 @@ export class Trojan {
       console.error("error", e);
     }
   }
+}
+
+export async function closeTrojan(file, configFile) {
+  const json: any = JSON.parse(String(await asyncReadFile(configFile)));
+  if (await isPortTaken(json.local_port)) {
+    console.error("port " + json.local_port + " is taken");
+    return await new Promise((resolve, reject) => {
+      exec(
+        "lsof -i :" + json.local_port + " | awk '{if(NR==\"2\") print $2}'",
+        (error, stdout, stderr) => {
+          if (error) {
+            console.error("Error get port pid", error);
+            reject(error);
+            return;
+          }
+
+          const pid = parseInt(stdout);
+
+          exec("kill -9 " + pid, (error1, stdout1, stderr1) => {
+            if (error1) {
+              console.error("Error kill process:" + pid, error1);
+              reject(error1);
+              return;
+            }
+            resolve(true);
+          });
+        }
+      );
+    });
+  }
+  return false;
 }
 
 export async function runTrojan(file, configFile) {

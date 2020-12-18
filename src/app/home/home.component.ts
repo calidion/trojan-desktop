@@ -9,6 +9,8 @@ import {
   writeFileSync,
   openSync,
   closeSync,
+  mkdirSync,
+  lstatSync,
 } from "fs";
 
 import { ipcRenderer } from "electron";
@@ -80,7 +82,9 @@ export class HomeComponent implements OnInit {
     if (this.configFile !== "") {
       this.config = this.readConfig(this.configFile);
     } else {
-      this.config = this.readConfig(resolve(__dirname, "../../assets/config.json"));
+      this.config = this.readConfig(
+        resolve(__dirname, "../../assets/config.json")
+      );
     }
   }
 
@@ -131,11 +135,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onDisConnect(): boolean {
-    return true;
+  onDisConnect(): void {
+    return this.disconnect(this.execFile, this.configFile);
   }
   onConnect(): boolean {
     return this.connect(this.execFile, this.configFile);
+  }
+
+  disconnect(execFile: string, configFile: string): void {
+    this.distroyProcess(execFile, configFile);
   }
 
   connect(execFile: string, configFile: string): boolean {
@@ -154,9 +162,16 @@ export class HomeComponent implements OnInit {
     return false;
   }
 
+  distroyProcess(filename: string, configFilename: string): void {
+    ipcRenderer.send("file-close", filename, configFilename);
+    ipcRenderer.once("close", (event, value) => {
+      console.log("inside ipc render on close", event, value);
+    });
+  }
+
   createProcess(filename: string, configFilename: string): void {
     ipcRenderer.send("file-open", filename, configFilename);
-    ipcRenderer.on("run", (event, value) => {
+    ipcRenderer.once("run", (event, value) => {
       console.log("inside ipc render on run", event, value);
     });
   }
@@ -193,20 +208,35 @@ export class HomeComponent implements OnInit {
     return true;
   }
 
-  save(filename, config) : void {
+  save(filename, config): void {
     const fd = openSync(filename, "w");
     writeFileSync(fd, JSON.stringify(config));
     closeSync(fd);
   }
 
   onSave(): void {
-    // TODO: add actions
     this.save(this.configFile, this.config);
   }
 
+  getDefaultDir() {
+    const { app } = remote;
+    const dir = resolve(app.getPath("userData"), "./data");
+
+    if (!existsSync(dir)) {
+      mkdirSync(dir);
+    } else {
+      const stats = lstatSync(dir);
+      if (!stats.isDirectory()) {
+        throw new Error("Should be a directory instead of a file!");
+      }
+    }
+    return dir;
+  }
+
   onSaveAs(): void {
-    const { dialog, app } = remote;
-    const toLocalPath = resolve(app.getPath("userData"), "./trojan.json");
+    const { dialog } = remote;
+
+    const toLocalPath = this.getDefaultDir();
     const userChosenPath = dialog.showSaveDialogSync({
       defaultPath: toLocalPath,
     });
