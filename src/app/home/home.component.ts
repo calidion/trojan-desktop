@@ -60,6 +60,9 @@ export class HomeComponent implements OnInit {
   // Process Status
   started = false;
 
+  // Linux Service Status
+  serviceExistance = false;
+
   // fa
   faLink = faLink;
   faUnlink = faUnlink;
@@ -91,6 +94,13 @@ export class HomeComponent implements OnInit {
 
   initService() {
     this.onConnect();
+  }
+
+  getServiceState() {
+    ipcRenderer.send("service-state");
+    ipcRenderer.once("service-state", (event, value) => {
+      console.log("inside service state", event, value);
+    });
   }
 
   findFile(paths: Array<string>): string {

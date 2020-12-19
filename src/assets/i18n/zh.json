@@ -21,7 +21,8 @@
       "CONNECT": "连接",
       "DISCONNECT": "断开",
       "SAVE": "保存",
-      "SAVE_AS": "另存为..."
+      "SAVE_AS": "另存为...",
+      "SERVICE": "服务"
     },
     "DETAIL": {
       "TITLE": "Detail page !",
