@@ -1,4 +1,4 @@
-import { ChildProcess, execFile, execFileSync, exec } from "child_process";
+import { ChildProcess, execFile, exec } from "child_process";
 import { isPortTaken } from "./net";
 import { readFile } from "fs";
 import { promisify } from "util";
@@ -38,7 +38,42 @@ export class Trojan {
   }
 }
 
+export async function serviceStop(name) {
+  return new Promise((resolve, reject) => {
+    exec("service " + name + " stop", (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error stop service!", error);
+        reject(error);
+        return;
+      }
+      resolve();
+    });
+  });
+}
+
+export async function serviceExists(name) {
+  return new Promise((resolve, reject) => {
+    exec(
+      "service " + name + ' status | grep "trojan.service"',
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error("Error finding " + name + " service!", error);
+          reject(error);
+          return;
+        }
+        if (stdout) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      }
+    );
+  });
+}
+
 export async function closeTrojan(file, configFile) {
+  // await serviceStop("trojan");
+
   const json: any = JSON.parse(String(await asyncReadFile(configFile)));
   if (await isPortTaken(json.local_port)) {
     console.error("port " + json.local_port + " is taken");
@@ -54,7 +89,7 @@ export async function closeTrojan(file, configFile) {
 
           const pid = parseInt(stdout);
 
-          exec("kill -9 " + pid, (error1, stdout1, stderr1) => {
+          exec("kill -9 " + pid, (error1) => {
             if (error1) {
               console.error("Error kill process:" + pid, error1);
               reject(error1);

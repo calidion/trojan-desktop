@@ -114,6 +114,9 @@ describe("HomeComponent", () => {
     "should clicked to connect",
     waitForAsync(() => {
       spyOn(component, "onConnect");
+      component.connected = false;
+
+      fixture.detectChanges();
       // spyOn(component, "onDisConnect");
       const connected: HTMLButtonElement = fixture.nativeElement.querySelector(
         ".connected"
@@ -140,7 +143,6 @@ describe("HomeComponent", () => {
       );
 
       expect(disconnected).toBeTruthy();
-
 
       disconnected.click();
 

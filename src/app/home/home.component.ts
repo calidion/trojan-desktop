@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.updateFileStatus("FILE.NOT.SELECTED");
     this.initConfig(this.possibleExecPath, this.possibleConfigPath);
+    // this.initService();
   }
 
   initConfig(execPaths: Array<string>, configPaths: Array<string>): void {
@@ -86,6 +87,10 @@ export class HomeComponent implements OnInit {
         resolve(__dirname, "../../assets/config.json")
       );
     }
+  }
+
+  initService() {
+    this.onConnect();
   }
 
   findFile(paths: Array<string>): string {
@@ -144,6 +149,7 @@ export class HomeComponent implements OnInit {
 
   disconnect(execFile: string, configFile: string): void {
     this.distroyProcess(execFile, configFile);
+    this.connected = false;
   }
 
   connect(execFile: string, configFile: string): boolean {

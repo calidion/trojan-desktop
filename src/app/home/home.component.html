@@ -36,11 +36,19 @@
         {{ "CONFIG.INFO" | translate }}
       </div>
       <div class="col-sm-6 text-right">
-        <button type="button" class="btn btn-outline-primary btn-sm" (click)="onSave()">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm save"
+          (click)="onSave()"
+        >
           <fa-icon [icon]="faSave"></fa-icon>
-          {{ "PAGES.HOME.SAVE" | translate }}
-        </button>&nbsp;
-        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onSaveAs()">
+          {{ "PAGES.HOME.SAVE" | translate }}</button
+        >&nbsp;
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm saveas"
+          (click)="onSaveAs()"
+        >
           <fa-icon [icon]="faSave"></fa-icon>
           {{ "PAGES.HOME.SAVE_AS" | translate }}
         </button>
