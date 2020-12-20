@@ -3,6 +3,7 @@
   "PAGES": {
     "HOME": {
       "TITLE": "Trojan代理客户端",
+      "CONNECTION": "连接",
       "FORM_CMD_FILE": "请选择Trojan可执行文件",
       "FORM_CONFIG_FILE": "请选择Trojan可执行文件",
       "FORM_LOCAL_ADDR": "本地代理服务器地址",
@@ -22,11 +23,9 @@
       "DISCONNECT": "断开",
       "SAVE": "保存",
       "SAVE_AS": "另存为...",
+      "ENABLE": "启用",
+      "DISABLE": "停用",
       "SERVICE": "服务"
-    },
-    "DETAIL": {
-      "TITLE": "Detail page !",
-      "BACK_TO_HOME": "Back to Home"
     }
   },
   "FILE": {

@@ -50,6 +50,8 @@ export class HomeComponent implements OnInit {
 
   selected = false;
 
+  enabled = false;
+
   selectedError = "";
 
   config;
@@ -143,6 +145,10 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  onEnableService() {}
+
+  onDisableService() {}
 
   i18nAlert(id: string): void {
     this.translate.get(id).subscribe((title) => {

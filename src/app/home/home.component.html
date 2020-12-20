@@ -4,7 +4,6 @@
       "PAGES.HOME.TITLE" | translate
     }}
   </h1>
-
   <div class="row">
     <div class="col-12 text-center">
       <button
@@ -29,9 +28,33 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-6"></div>
+    <div class="col-sm-12">
+      <fa-icon [icon]="faCog"></fa-icon>
+
+      {{ "PAGES.HOME.SERVICE" | translate }}
+    </div>
+    <div class="col-12 text-center">
+      <button
+        type="submit"
+        class="btn btn-outline-danger disabled"
+        *ngIf="enabled"
+        (click)="onEnableService()"
+      >
+        <fa-icon [icon]="faUnlink"></fa-icon>
+        {{ "PAGES.HOME.ENABLE" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-outline-danger enabled"
+        *ngIf="!enabled"
+        (click)="onDisableService()"
+      >
+        <fa-icon [icon]="faLink"></fa-icon>
+        {{ "PAGES.HOME.DISABLE" | translate }}
+      </button>
+    </div>
   </div>
+  <hr />
   <form>
     <div class="form-group row">
       <div class="col-sm-6">
