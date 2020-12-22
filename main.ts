@@ -2,12 +2,14 @@ import { app, BrowserWindow, screen } from "electron";
 
 import { initTray } from "./desktop/src/tray";
 
-import { initMessage } from "./desktop/src/message";
+import { Messager } from "./desktop/src/message";
 
 import options from "./desktop/src/option";
 
 // import * as path from "path";
 import * as url from "url";
+
+const messager = new Messager();
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -32,6 +34,7 @@ function createWindow(): BrowserWindow {
     },
     icon: icon.file,
   });
+  // win.webContents.openDevTools();
 
   if (serve) {
     win.webContents.openDevTools();
@@ -68,7 +71,7 @@ try {
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
   app.on("ready", () => {
     initTray(options.icon.file, app);
-    initMessage();
+    messager.init();
 
     setTimeout(createWindow, 400);
   });

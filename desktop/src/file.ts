@@ -1,164 +1,72 @@
-import { ChildProcess, execFile, exec } from "child_process";
+import { ChildProcess, exec, ExecException } from 'child_process';
 import { isPortTaken } from "./net";
 import { readFile } from "fs";
 import { promisify } from "util";
+import { ShellService } from "./service";
 
 const asyncReadFile = promisify(readFile);
 
-// let ls: ChildProcess = null;
-
 export class Trojan {
-  static ls: ChildProcess = null;
-  runnableFile = "";
-  configFile = "";
-  constructor(runnableFile, configFile) {
-    this.runnableFile = runnableFile;
-    this.configFile = configFile;
+  ls: ChildProcess = null;
+  service: ShellService;
+  constructor(serviceName: string) {
+    this.service = new ShellService(serviceName);
   }
 
-  public run() {
-    if (Trojan.ls) {
-      Trojan.ls.kill();
+  public run(execFile: string, configFile: string, cb) {
+    if (this.ls) {
+      this.ls.kill();
     }
-    try {
-      Trojan.ls = execFile(
-        this.runnableFile,
-        ["-c", this.configFile],
-        async (error, stdout, stderr) => {
-          if (error) {
-            console.error("stderr", stderr);
+    const cmdStr = execFile + " -c " + configFile;
+    const errorStr = "Error executing '" + cmdStr + "'";
 
-            throw error;
-          }
-        }
-      );
-    } catch (e) {
-      console.error("error", e);
-    }
-  }
-}
-
-export async function serviceStop(name) {
-  return new Promise((resolve, reject) => {
-    exec("service " + name + " stop", (error, stdout, stderr) => {
+    const pid = exec(cmdStr, (error: ExecException, stdout: string, stderr: string) => {
+      if (!cb) {
+        cb = () => { };
+      }
       if (error) {
-        console.error("Error stop service!", error);
-        reject(error);
+        console.error(errorStr, error);
+        cb(true, error);
         return;
       }
-      resolve();
-    });
-  });
-}
-
-export async function serviceExists(name) {
-  return new Promise((resolve, reject) => {
-    exec(
-      "service " + name + ' status | grep "trojan.service"',
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error("Error finding " + name + " service!", error);
-          reject(error);
-          return;
-        }
-        if (stdout) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+      if (stderr) {
+        console.error(errorStr, stderr);
+        cb(true, stderr);
+        return;
       }
-    );
-  });
-}
-
-export async function closeTrojan(file, configFile) {
-  // await serviceStop("trojan");
-
-  const json: any = JSON.parse(String(await asyncReadFile(configFile)));
-  if (await isPortTaken(json.local_port)) {
-    console.error("port " + json.local_port + " is taken");
-    return await new Promise((resolve, reject) => {
-      exec(
-        "lsof -i :" + json.local_port + " | awk '{if(NR==\"2\") print $2}'",
-        (error, stdout, stderr) => {
-          if (error) {
-            console.error("Error get port pid", error);
-            reject(error);
-            return;
-          }
-
-          const pid = parseInt(stdout);
-
-          exec("kill -9 " + pid, (error1) => {
-            if (error1) {
-              console.error("Error kill process:" + pid, error1);
-              reject(error1);
-              return;
-            }
-            resolve(true);
-          });
-        }
-      );
+      console.log(stdout);
+      cb(stdout)
     });
+    if (!pid) {
+      return true;
+    }
+    this.ls = pid;
+    return true;
   }
-  return false;
-}
 
-export async function runTrojan(file, configFile) {
-  console.log(file, configFile);
-  const json: any = JSON.parse(String(await asyncReadFile(configFile)));
-  console.log(json);
-
-  if (await isPortTaken(json.local_port)) {
-    console.error("port " + json.local_port + " is taken");
+  public async close(configFile: string) {
+    const json: any = JSON.parse(String(await asyncReadFile(configFile)));
+    if (await isPortTaken(json.local_port)) {
+      console.error("port " + json.local_port + " is taken");
+      try {
+        let cmdStr = "lsof -i :" + json.local_port + " | awk '{if(NR==\"2\") print $2}'";
+        let errorStr = "Error get port pid";
+        let data: any = await ShellService.exec(cmdStr, errorStr);
+        const pid = parseInt(data.stdout as string);
+        cmdStr = "kill -9 " + pid;
+        errorStr = "Error kill process:" + pid;
+        data = await ShellService.exec(cmdStr, errorStr);
+        console.log("data: ", data);
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
     return false;
   }
 
-  if (Trojan.ls) {
-    Trojan.ls.kill();
-    Trojan.ls = null;
+  public async stop() {
+    await this.service.run("stop");
   }
-
-  Trojan.ls = execFile(
-    file,
-    ["-c", configFile],
-    async (error, stdout, stderr) => {
-      if (error) {
-        console.error("stderr", stderr);
-
-        throw error;
-      }
-
-      // await dialog.showMessageBox(null, {
-      //   message: "Process created!",
-      // });
-
-      // ls.stdout.on("data", async (data) => {
-      //   await dialog.showMessageBox(null, {
-      //     message: "stdout: " + data.toString(),
-      //   });
-      //   // process.send("stdout: " + data.toString());
-      // });
-
-      // ls.stderr.on("data", async (data) => {
-      //   await dialog.showMessageBox(null, {
-      //     message: "stderr: " + data.toString(),
-      //   });
-      //   // process.send("stderr: " + data.toString());
-
-      // });
-
-      // ls.on("exit", async (code) => {
-      //   process.send("child process exited with code " + code.toString());
-      //   console.log("child process exited with code " + code.toString());
-      // });
-
-      // process.on("message", async (data) => {
-      //   await dialog.showMessageBox(null, {
-      //     message: data.toString(),
-      //   });
-      // })
-    }
-  );
-  return true;
 }

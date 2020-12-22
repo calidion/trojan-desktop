@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import {
@@ -71,7 +71,8 @@ export class HomeComponent implements OnInit {
   faCog = faCog;
   faSave = faSave;
 
-  constructor(private router: Router, private translate: TranslateService) {
+  constructor(private router: Router, private translate: TranslateService,
+    private cd: ChangeDetectorRef) {
     // console.log(faLink);
   }
 
@@ -96,12 +97,14 @@ export class HomeComponent implements OnInit {
 
   initService() {
     this.onConnect();
+    this.getServiceState();
   }
 
   getServiceState() {
-    ipcRenderer.send("service-state");
-    ipcRenderer.once("service-state", (event, value) => {
-      console.log("inside service state", event, value);
+    const cmd = "service";
+    ipcRenderer.send(cmd, 'status');
+    ipcRenderer.once(cmd, (event, error, value) => {
+      console.log("inside service state", event, error, value);
     });
   }
 
@@ -146,9 +149,19 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onEnableService() {}
+  onEnableService() {
+    ipcRenderer.send("service", 'start');
+    ipcRenderer.once("service-success", (event, value) => {
+      console.log("inside service start", event, value);
+    });
+  }
 
-  onDisableService() {}
+  onDisableService() {
+    ipcRenderer.send("service", 'stop');
+    ipcRenderer.once("service-success", (event, value) => {
+      console.log("inside service stop", event, value);
+    });
+  }
 
   i18nAlert(id: string): void {
     this.translate.get(id).subscribe((title) => {
@@ -157,6 +170,7 @@ export class HomeComponent implements OnInit {
   }
 
   onDisConnect(): void {
+    console.log("inside on dis connect");
     return this.disconnect(this.execFile, this.configFile);
   }
   onConnect(): boolean {
@@ -165,7 +179,6 @@ export class HomeComponent implements OnInit {
 
   disconnect(execFile: string, configFile: string): void {
     this.distroyProcess(execFile, configFile);
-    this.connected = false;
   }
 
   connect(execFile: string, configFile: string): boolean {
@@ -178,23 +191,36 @@ export class HomeComponent implements OnInit {
       return false;
     } else {
       this.updateFileStatus("FILE.EXE.FOUND", true);
-      this.connected = true;
       this.createProcess(execFile, configFile);
     }
     return false;
   }
 
   distroyProcess(filename: string, configFilename: string): void {
-    ipcRenderer.send("file-close", filename, configFilename);
-    ipcRenderer.once("close", (event, value) => {
-      console.log("inside ipc render on close", event, value);
+    console.log("inside distroy process");
+    const cmd = "trojan-stop";
+    ipcRenderer.send(cmd, filename, configFilename);
+    ipcRenderer.once(cmd, (event, error, message) => {
+      if (!error) {
+        this.connected = false;
+        console.log("trojan disonnected!");
+        this.cd.detectChanges();
+      }
+      console.log("inside ipc render on close", event, error, message);
     });
   }
 
   createProcess(filename: string, configFilename: string): void {
-    ipcRenderer.send("file-open", filename, configFilename);
-    ipcRenderer.once("run", (event, value) => {
-      console.log("inside ipc render on run", event, value);
+    const cmd = "trojan-run";
+    console.log("insde creating process");
+    ipcRenderer.send(cmd, filename, configFilename);
+    ipcRenderer.once(cmd, (event, error, message) => {
+      if (!error) {
+        this.connected = true;
+        console.log("trojan already connected!");
+        this.cd.detectChanges();
+      }
+      console.log("inside ipc render on run : ", event, error, message);
     });
   }
 

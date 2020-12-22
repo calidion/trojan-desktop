@@ -66,8 +66,8 @@ describe("HomeComponent", () => {
     waitForAsync(() => {
       component.initConfig([], []);
       component.updateFileStatus("FILE.NOT.SELECTED", true);
-      component.onConnect();
-      component.onDisConnect();
+      // component.onConnect();
+      // component.onDisConnect();
       expect(component.configFile).toBeFalsy();
     })
   );

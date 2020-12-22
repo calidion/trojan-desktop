@@ -36,8 +36,8 @@
     <div class="col-12 text-center">
       <button
         type="submit"
-        class="btn btn-outline-danger disabled"
-        *ngIf="enabled"
+        class="btn btn-outline-danger service-disabled"
+        *ngIf="!enabled"
         (click)="onEnableService()"
       >
         <fa-icon [icon]="faUnlink"></fa-icon>
@@ -45,8 +45,8 @@
       </button>
       <button
         type="submit"
-        class="btn btn-outline-danger enabled"
-        *ngIf="!enabled"
+        class="btn btn-outline-danger service-enabled"
+        *ngIf="enabled"
         (click)="onDisableService()"
       >
         <fa-icon [icon]="faLink"></fa-icon>
