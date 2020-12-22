@@ -71,14 +71,19 @@ export class HomeComponent implements OnInit {
   faCog = faCog;
   faSave = faSave;
 
+  interval = 5000;
+  check = false;
+
+  previousStatus = false;
+
   constructor(private router: Router, private translate: TranslateService,
     private cd: ChangeDetectorRef) {
-    // console.log(faLink);
   }
 
   ngOnInit(): void {
     this.updateFileStatus("FILE.NOT.SELECTED");
     this.initConfig(this.possibleExecPath, this.possibleConfigPath);
+
     // this.initService();
   }
 
@@ -98,13 +103,20 @@ export class HomeComponent implements OnInit {
   initService() {
     this.onConnect();
     this.getServiceState();
+
+    if (this.check) {
+      setTimeout(() => {
+        this.initService();
+      }, this.interval);
+    }
   }
 
   getServiceState() {
     const cmd = "service";
     ipcRenderer.send(cmd, 'status');
     ipcRenderer.once(cmd, (event, error, value) => {
-      console.log("inside service state", event, error, value);
+      console.log("inside service status", event, error, value);
+
     });
   }
 
@@ -144,20 +156,22 @@ export class HomeComponent implements OnInit {
     this.translate.get(i18nID).subscribe((title) => {
       this.strFileStatus = title;
       if (withAlert) {
-        alert(this.strFileStatus);
+        // alert(this.strFileStatus);
+        // $('.toast').toast("show");
+
       }
     });
   }
 
   onEnableService() {
-    ipcRenderer.send("service", 'start');
+    ipcRenderer.send("service", 'start', this.execFile, this.configFile);
     ipcRenderer.once("service-success", (event, value) => {
       console.log("inside service start", event, value);
     });
   }
 
   onDisableService() {
-    ipcRenderer.send("service", 'stop');
+    ipcRenderer.send("service", 'stop', this.execFile, this.configFile);
     ipcRenderer.once("service-success", (event, value) => {
       console.log("inside service stop", event, value);
     });
@@ -165,7 +179,8 @@ export class HomeComponent implements OnInit {
 
   i18nAlert(id: string): void {
     this.translate.get(id).subscribe((title) => {
-      alert(title);
+      // alert(title);
+      // $('.toast').toast("show");
     });
   }
 

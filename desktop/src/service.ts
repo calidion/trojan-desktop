@@ -33,4 +33,9 @@ export class ShellService {
     const errorStr: string = "Error finding " + this.name + " service!";
     return await ShellService.exec(cmdStr, errorStr);
   }
+  async status() {
+    const cmdStr: string = "systemctl --no-pager status " + this.name;
+    const errorStr: string = "Error status service!";
+    return await ShellService.exec(cmdStr, errorStr);
+  }
 }
