@@ -22,7 +22,7 @@
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
             },
-            "allowedCommonJsDependencies": ["jquer", "bootstrap"]
+            "allowedCommonJsDependencies": ["jquery", "bootstrap"]
           },
           "configurations": {
             "dev": {
