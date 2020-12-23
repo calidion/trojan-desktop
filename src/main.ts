@@ -4,9 +4,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { AppConfig } from './environments/environment';
 
-import "jquery";
-import "bootstrap";
-
 if (AppConfig.production) {
   enableProdMode();
 }
