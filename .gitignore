@@ -1,51 +1,60 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See http:/help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
-/out-tsc
-/app-builds
-/release
-main.js
-src/**/*.js
-desktop/**/*.js
-!src/karma.conf.js
-*.js.map
+/angular/dist
+/angular/tmp
+/angular/out-tsc
+# Only exists if Bazel was run
+/angular/bazel-out
 
 # dependencies
-/node_modules
+/angular/node_modules
+
+# profiling files
+/angular/chrome-profiler-events*.json
+/angular/speed-measure-plugin*.json
 
 # IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/angular/.idea
+/angular/.project
+/angular/.classpath
+/angular/.c9/
+/angular/*.launch
+/angular/.settings/
+/angular/*.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
-.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+/angular/.vscode/*
+/angular/!.vscode/settings.json
+/angular/!.vscode/tasks.json
+/angular/!.vscode/launch.json
+/angular/!.vscode/extensions.json
+/angular/.history/*
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-package-lock.json
-
-# e2e
-/e2e/*.js
-!/e2e/protractor.conf.js
-/e2e/*.map
+/angular/.sass-cache
+/angular/connect.lock
+/angular/coverage
+/angular/libpeerconnection.log
+/angular/npm-debug.log
+/angular/yarn-error.log
+/angular/testem.log
+/angular/typings
 
 # System Files
-.DS_Store
-Thumbs.db
+/angular/.DS_Store
+/angular/Thumbs.db
+
+/electron/coverage/
+/electron/node_modules/
+/electron/npm-debug.log*
+/electron/yarn-debug.log*
+/electron/yarn-error.log*
+/electron/.nyc_output
+/electron/lib
+/electron/lib_test
+
+/output
+
+/angular/package-lock.json
+/electron/package-lock.json

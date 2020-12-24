@@ -9,11 +9,15 @@ services:
   - xvfb
 before_script:
   - export DISPLAY=:99.0
-install:
-  - npm set progress=false
-  - npm install
 script:
-  - ng lint
+  - npm set progress=false
+  - cd angular
+  - npm install
   - if [ "$TRAVIS_OS_NAME" != "windows" ]; then npm run test ; fi
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then npm run e2e ; fi
+  # - if [ "$TRAVIS_OS_NAME" != "windows" ]; then npm run e2e ; fi
   - npm run build
+  - cd ../electron
+  - npm install
+  - npm run coverage # jest test with coverage flag does coverage too
+after_script:
+  - 'cat coverage/lcov.info | ./node_modules/.bin/coveralls' # sends the coverage report to coveralls
