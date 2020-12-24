@@ -10,7 +10,10 @@ describe('angular-electron App', function () {
   let client: SpectronClient;
 
   beforeEach(function() {
+    console.log(this.app);
     client = this.app.client;
+    console.log(client);
+
   });
 
   it('creates initial windows', async function () {
