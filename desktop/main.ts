@@ -1,10 +1,10 @@
 import { app, BrowserWindow, screen } from "electron";
 
-import { initTray } from "./desktop/src/tray";
+import { initTray } from "./src/tray";
 
-import { Messager } from "./desktop/src/message";
+import { Messager } from "./src/message";
 
-import options from "./desktop/src/option";
+import options from "./src/option";
 
 // import * as path from "path";
 import * as url from "url";
