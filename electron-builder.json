@@ -1,5 +1,5 @@
 {
-  "productName": "angular-electron",
+  "productName": "trojan-desktop",
   "directories": {
     "output": "release/"
   },
@@ -20,19 +20,19 @@
         "!tslint.json"
     ],
   "win": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/frontend/assets/icons",
     "target": [
       "portable"
     ]
   },
   "mac": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/frontend/assets/icons",
     "target": [
       "dmg"
     ]
   },
   "linux": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/frontend/assets/icons",
     "target": [
       "AppImage"
     ]

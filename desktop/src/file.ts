@@ -49,14 +49,22 @@ export class Trojan {
     if (await isPortTaken(json.local_port)) {
       console.error("port " + json.local_port + " is taken");
       try {
-        let cmdStr = "lsof -i :" + json.local_port + " | awk '{if(NR==\"2\") print $2}'";
+        let cmdStr = "lsof -i :" + json.local_port + " | grep " + this.service + " | awk '{if(NR==\"2\") print $2}'";
         let errorStr = "Error get port pid";
         let data: any = await ShellService.exec(cmdStr, errorStr);
         const pid = parseInt(data.stdout as string);
-        cmdStr = "kill -9 " + pid;
-        errorStr = "Error kill process:" + pid;
-        data = await ShellService.exec(cmdStr, errorStr);
-        console.log("data: ", data);
+        if (pid) {
+          cmdStr = "kill -9 " + pid;
+          errorStr = "Error kill process:" + pid;
+          data = await ShellService.exec(cmdStr, errorStr);
+          console.log("data: ", data);
+        } else {
+          if (await isPortTaken(json.local_port)) {
+            console.error("Port is taken by other user!");
+            return false;
+          }
+        }
+
         return true;
       } catch (e) {
         console.error(e);
