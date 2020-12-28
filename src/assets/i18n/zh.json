@@ -27,7 +27,11 @@
       "SAVE_AS": "另存为...",
       "ENABLE": "启用",
       "DISABLE": "停用",
-      "SERVICE": "服务"
+      "SERVICE": "服务",
+      "SERVICE_SUCCESSFUL": "服务已经成功运行，或已经激活！",
+      "SERVICE_FAILED": "服务启动失败!",
+      "SERVICE_FAILED_DETAIL": "服务启动失败详情:"
+
     }
   },
   "FILE": {

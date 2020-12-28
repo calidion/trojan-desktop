@@ -106,9 +106,10 @@ export class Messager {
           data = await this.trojan.service.run(action);
         }
         console.log(data);
-        event.reply("service", false, data);
+        event.reply("service", false, data.stdout);
       } catch (e) {
-        event.reply("service", true, e);
+        const { error, stderr } = data;
+        event.reply("service", error, stderr);
       }
     });
   }

@@ -52,6 +52,8 @@ export class HomeComponent implements OnInit {
 
   enabled = false;
 
+  dismissed = false;
+
   selectedError = "";
 
   config;
@@ -63,7 +65,9 @@ export class HomeComponent implements OnInit {
   started = false;
 
   // Error Message
+  serviceError = false;
   connectError = false;
+  serviceMessage = "";
   connectMessage = "";
 
   // Linux Service Status
@@ -105,24 +109,40 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+  // Service related functions
+
   initService() {
     this.onConnect();
-    this.getServiceState();
+    const cmd = "service";
 
-    // if (this.check) {
-    //   setTimeout(() => {
-    //     this.initService();
-    //   }, this.interval);
-    // }
+    ipcRenderer.once(cmd, (event, error, message) => {
+      console.log("inside service start", event, error, message);
+      if (!error) {
+        this.enabled = true;
+        this.dismissed = false;
+        console.log("trojan already connected!");
+      } else {
+        this.enabled = false;
+        this.serviceError = error;
+        this.serviceMessage = message;
+      }
+      this.cd.detectChanges();
+    });
+    this.getServiceStatus();
+
   }
 
-  getServiceState() {
-    const cmd = "service";
-    ipcRenderer.send(cmd, 'status');
-    ipcRenderer.once(cmd, (event, error, value) => {
-      console.log("inside service status", event, error, value);
+  getServiceStatus() {
+    ipcRenderer.send("service", 'status');
+  }
 
-    });
+  onEnableService() {
+    ipcRenderer.send("service", 'start', this.execFile, this.configFile);
+  }
+
+  onDisableService() {
+    ipcRenderer.send("service", 'stop', this.execFile, this.configFile);
   }
 
   findFile(paths: Array<string>): string {
@@ -165,20 +185,6 @@ export class HomeComponent implements OnInit {
         // $('.toast').toast("show");
 
       }
-    });
-  }
-
-  onEnableService() {
-    ipcRenderer.send("service", 'start', this.execFile, this.configFile);
-    ipcRenderer.once("service-success", (event, value) => {
-      console.log("inside service start", event, value);
-    });
-  }
-
-  onDisableService() {
-    ipcRenderer.send("service", 'stop', this.execFile, this.configFile);
-    ipcRenderer.once("service-success", (event, value) => {
-      console.log("inside service stop", event, value);
     });
   }
 
@@ -327,6 +333,18 @@ export class HomeComponent implements OnInit {
   closeError() {
     this.connectError = false;
     console.log("inside close Error");
+    this.cd.detectChanges();
+  }
+
+  closeServiceError() {
+    this.serviceError = false;
+    console.log("inside close service Error");
+    this.cd.detectChanges();
+  }
+
+  closeEnableError() {
+    this.dismissed = true;
+    console.log("inside dismiss Error");
     this.cd.detectChanges();
   }
 }

@@ -51,7 +51,7 @@
 
       {{ "PAGES.HOME.SERVICE" | translate }}
     </div>
-    <div class="col-12 text-center">
+    <div class="col-12 text-center service-buttons">
       <button
         type="submit"
         class="btn btn-outline-danger service-disabled"
@@ -70,6 +70,44 @@
         <fa-icon [icon]="faLink"></fa-icon>
         {{ "PAGES.HOME.DISABLE" | translate }}
       </button>
+    </div>
+
+    <br />
+    <div class="col-12">
+      <div class="card" *ngIf="enabled && !dismissed">
+        <p class="close-bar">
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="closeEnableError()"
+          >
+            <span>&times;</span>
+          </button>
+        </p>
+        <p class="alert alert-info text-left">
+          {{ "PAGES.HOME.SERVICE_SUCCESSFUL" | translate }}<br />
+        </p>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card" *ngIf="serviceError">
+        <p class="close-bar">
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="closeServiceError()"
+          >
+            <span>&times;</span>
+          </button>
+        </p>
+        <p class="alert alert-info text-left">
+          {{ "PAGES.HOME.SERVICE_FAILED" | translate }}<br />
+          {{ "PAGES.HOME.SERVICE_FAILED_DETAIL" | translate }}
+        </p>
+        <pre class="text-left" *ngIf="serviceError">{{ serviceMessage }}</pre>
+      </div>
     </div>
   </div>
   <hr />

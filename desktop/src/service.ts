@@ -1,20 +1,25 @@
-import { exec, ExecException } from 'child_process';
+import { exec, ExecException, ChildProcess } from 'child_process';
+
+export interface ExecResult { error?: string, stderr?: string, stdout?: string, pid?: ChildProcess };
+
 export class ShellService {
   name: string;
   constructor(name) {
     this.name = name;
   }
 
-  public static exec(cmdStr: string, errorStr: string) {
+  public static exec(cmdStr: string, errorStr: string): Promise<ExecResult> {
     return new Promise((resolve, reject) => {
       const pid = exec(cmdStr, (error: ExecException, stdout: string, stderr: string) => {
+
+        console.log(error, stderr);
         if (error) {
           console.error(errorStr, error);
-          reject(error);
+          reject({ error, stderr });
           return;
         }
         if (stderr) {
-          reject(stderr);
+          reject({ error, stderr });
           return;
         }
         resolve({ stdout, pid });
@@ -37,5 +42,13 @@ export class ShellService {
     const cmdStr: string = "systemctl --no-pager status " + this.name;
     const errorStr: string = "Error status service!";
     return await ShellService.exec(cmdStr, errorStr);
+    // if (data.error) {
+    //   const { stderr } = data;
+    //   if (stderr.indexOf("Active: active (running)")) {
+    //     return { error: false, stderr };
+    //   }
+    // }
+    // return data;
+
   }
 }
