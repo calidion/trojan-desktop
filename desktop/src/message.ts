@@ -108,8 +108,9 @@ export class Messager {
         console.log(data);
         event.reply("service", false, data.stdout);
       } catch (e) {
-        const { error, stderr } = data;
-        event.reply("service", error, stderr);
+        console.error(e);
+        event.reply("service", true, e.message);
+
       }
     });
   }

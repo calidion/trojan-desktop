@@ -27,6 +27,7 @@ import { resolve } from "path";
 
 import { remote } from "electron";
 
+
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -181,17 +182,24 @@ export class HomeComponent implements OnInit {
     this.translate.get(i18nID).subscribe((title) => {
       this.strFileStatus = title;
       if (withAlert) {
-        // alert(this.strFileStatus);
-        // $('.toast').toast("show");
 
       }
     });
   }
 
-  i18nAlert(id: string): void {
-    this.translate.get(id).subscribe((title) => {
-      // alert(title);
-      // $('.toast').toast("show");
+  i18nAlert(id: string, message?: string): void {
+    this.translate.get(id).subscribe((title: string) => {
+      const options = {
+        title,
+        body: message ? message : title
+      }
+      console.log(options);
+      try {
+        const notify = new remote.Notification(options);
+        notify.show();
+      } catch (e) {
+        console.error(e);
+      }
     });
   }
 
@@ -289,9 +297,15 @@ export class HomeComponent implements OnInit {
   }
 
   save(filename, config): void {
-    const fd = openSync(filename, "w");
-    writeFileSync(fd, JSON.stringify(config));
-    closeSync(fd);
+    console.log("save", filename, config);
+    try {
+      const fd = openSync(filename, "w");
+      writeFileSync(fd, JSON.stringify(config));
+      closeSync(fd);
+
+    } catch (e) {
+      this.i18nAlert("FILE.SAVE.ERROR", e.message);
+    }
   }
 
   onSave(): void {
@@ -299,8 +313,7 @@ export class HomeComponent implements OnInit {
   }
 
   getDefaultDir() {
-    const { app } = remote;
-    const dir = resolve(app.getPath("userData"), "./data");
+    const dir = resolve(remote.app.getPath("userData"), "./data");
 
     if (!existsSync(dir)) {
       mkdirSync(dir);
@@ -314,20 +327,28 @@ export class HomeComponent implements OnInit {
   }
 
   onSaveAs(): void {
-    const { dialog } = remote;
 
-    const toLocalPath = this.getDefaultDir();
-    const userChosenPath = dialog.showSaveDialogSync({
-      defaultPath: toLocalPath,
+    this.translate.get("FILE.SAVE.TITLE").subscribe((title: string) => {
+
+      const toLocalPath = this.getDefaultDir() + "/config.json";
+      const userChosenPath = remote.dialog.showSaveDialogSync(remote.getCurrentWindow(), {
+        title,
+        defaultPath: toLocalPath,
+        filters: [
+          { name: 'JSON(*.json)', extensions: ['json'] },
+          { name: '*', extensions: ['*'] }
+        ]
+      });
+      console.log(userChosenPath)
+
+      if (!userChosenPath) {
+        console.log("file not choosen");
+        return;
+      } else {
+        this.configFile = userChosenPath;
+      }
+      this.save(this.configFile, this.config);
     });
-
-    if (!existsSync(userChosenPath)) {
-      // dialog.showOpenDialogSync()
-      this.configFile = toLocalPath;
-    } else {
-      this.configFile = userChosenPath;
-    }
-    this.save(this.configFile, this.config);
   }
 
   closeError() {

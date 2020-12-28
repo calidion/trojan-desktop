@@ -24,7 +24,8 @@ export class TrojanWindow {
         height: size.height,
         webPreferences: {
           nodeIntegration: true,
-          allowRunningInsecureContent
+          allowRunningInsecureContent,
+          enableRemoteModule: true
         },
         icon: options.icon.file,
       });
