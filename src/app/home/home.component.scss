@@ -10,7 +10,8 @@ label {
   }
 }
 
-.btn.connected, .btn.disconnected {
+.btn.connected,
+.btn.disconnected {
   margin: 1em;
 }
 
@@ -20,4 +21,14 @@ label {
 
 .tab-pane {
   padding-top: 1em;
+}
+
+.close-bar {
+  margin-right: -1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card {
+  padding: 0 2rem;
 }

@@ -323,4 +323,10 @@ export class HomeComponent implements OnInit {
     }
     this.save(this.configFile, this.config);
   }
+
+  closeError() {
+    this.connectError = false;
+    console.log("inside close Error");
+    this.cd.detectChanges();
+  }
 }
