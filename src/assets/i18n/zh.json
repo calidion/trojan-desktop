@@ -20,6 +20,8 @@
       "FORM_LOG_LEVEL": "日志级别",
       "FORM_LOG_LEVEL_DESC": "设定日志记录的级别",
       "CONNECT": "连接",
+      "CONNECT_FAILED": "连接失败,请检查端口是否被占用！",
+      "CONNECT_FAILED_DETAIL": "错误详情：",
       "DISCONNECT": "断开",
       "SAVE": "保存",
       "SAVE_AS": "另存为...",

@@ -1,9 +1,8 @@
 import { ipcMain } from "electron";
 import { IpcMainEvent } from "electron/main";
 import { existsSync } from "fs";
-import { Trojan } from './file';
+import { Trojan } from "./file";
 // import { execFile } from 'child_process';
-
 
 export class Messager {
   trojan: Trojan;
@@ -28,7 +27,12 @@ export class Messager {
     return true;
   }
 
-  onTrojanRun(cmd: string, event: IpcMainEvent, execFile: string, configFile: string) {
+  onTrojanRun(
+    cmd: string,
+    event: IpcMainEvent,
+    execFile: string,
+    configFile: string
+  ) {
     console.log("inside trojan run!");
     console.log(execFile, configFile);
     console.log("inside trojan run! 1");
@@ -36,12 +40,17 @@ export class Messager {
     if (this.checkFile(cmd, event, execFile, configFile)) {
       try {
         console.log("inside trojan run! 2");
-        if (this.trojan.run(execFile, configFile, (error: string, messsage: string) => {
-          event.reply(cmd, error, messsage)
-        })) {
-          console.log("inside trojan run successfully");
-          event.reply(cmd, false);
-        } else {
+        if (
+          !this.trojan.run(
+            execFile,
+            configFile,
+            (error: string, messsage: string) => {
+              console.log("inside callback !");
+              console.log(error, messsage);
+              event.reply(cmd, error, messsage);
+            }
+          )
+        ) {
           console.log("inside trojan run failed!");
           event.reply(cmd, true, "Fail to run trojan!");
         }
@@ -53,7 +62,12 @@ export class Messager {
     console.log("inside trojan run! 3");
   }
 
-  async onTrojanStop(cmd: string, event: IpcMainEvent, execFile: string, configFile: string) {
+  async onTrojanStop(
+    cmd: string,
+    event: IpcMainEvent,
+    execFile: string,
+    configFile: string
+  ) {
     console.log("inside trojan stop! 1");
 
     if (this.checkFile(cmd, event, execFile, configFile)) {
@@ -65,14 +79,11 @@ export class Messager {
           console.log("inside trojan stop! 4");
           event.reply(cmd, true, "Unknown error!");
         }
-
       } catch (e) {
         event.reply(cmd, true, e);
-
       }
     }
     console.log("inside trojan stop! 5");
-
   }
 
   init() {

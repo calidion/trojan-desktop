@@ -62,6 +62,10 @@ export class HomeComponent implements OnInit {
   // Process Status
   started = false;
 
+  // Error Message
+  connectError = false;
+  connectMessage = "";
+
   // Linux Service Status
   serviceExistance = false;
 
@@ -74,6 +78,7 @@ export class HomeComponent implements OnInit {
   interval = 5000;
   check = false;
 
+
   previousStatus = false;
 
   constructor(private router: Router, private translate: TranslateService,
@@ -84,7 +89,7 @@ export class HomeComponent implements OnInit {
     this.updateFileStatus("FILE.NOT.SELECTED");
     this.initConfig(this.possibleExecPath, this.possibleConfigPath);
 
-    // this.initService();
+    this.initService();
   }
 
   initConfig(execPaths: Array<string>, configPaths: Array<string>): void {
@@ -104,11 +109,11 @@ export class HomeComponent implements OnInit {
     this.onConnect();
     this.getServiceState();
 
-    if (this.check) {
-      setTimeout(() => {
-        this.initService();
-      }, this.interval);
-    }
+    // if (this.check) {
+    //   setTimeout(() => {
+    //     this.initService();
+    //   }, this.interval);
+    // }
   }
 
   getServiceState() {
@@ -229,12 +234,18 @@ export class HomeComponent implements OnInit {
     const cmd = "trojan-run";
     console.log("insde creating process");
     ipcRenderer.send(cmd, filename, configFilename);
-    ipcRenderer.once(cmd, (event, error, message) => {
+    ipcRenderer.on(cmd, (event, error, message) => {
+      console.log("inside renders");
+      // console.log(arguments);
       if (!error) {
         this.connected = true;
         console.log("trojan already connected!");
-        this.cd.detectChanges();
+      } else {
+        this.connected = false;
+        this.connectError = error;
+        this.connectMessage = message.message;
       }
+      this.cd.detectChanges();
       console.log("inside ipc render on run : ", event, error, message);
     });
   }

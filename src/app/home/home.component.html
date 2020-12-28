@@ -24,6 +24,29 @@
         <fa-icon [icon]="faLink"></fa-icon>
         {{ "PAGES.HOME.CONNECT" | translate }}
       </button>
+
+      <p *ngIf="connectError">
+        <a
+          class="btn btn-primary"
+          data-bs-toggle="collapse"
+          href="#error-connection"
+          role="button"
+          aria-expanded="false"
+          aria-controls="error-connection"
+        >
+          Link with href
+        </a>
+      </p>
+      <div class="collapse" id="error-connection" *ngIf="connectError">
+        <div class="card card-body">
+          <p class="alert alert-info found-alert" role="alert">
+            {{ "PAGES.HOME.CONNECT_FAILED" | translate }}<br />
+            {{ "PAGES.HOME.CONNECT_FAILED_DETAIL" | translate }}
+          </p>
+
+          <pre class="text-left">{{ connectMessage }}</pre>
+        </div>
+      </div>
     </div>
   </div>
   <hr />
