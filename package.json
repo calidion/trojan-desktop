@@ -20,7 +20,8 @@
     "mac",
     "linux"
   ],
-  "main": "main.js",
+  "files": ["dist/**/*"],
+  "main": "dist/desktop/main.js",
   "private": true,
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
