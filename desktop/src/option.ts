@@ -15,8 +15,5 @@ export default {
   local: {
     host: "http://localhost:4200",
     file: path.join(__dirname, "../../frontend/index.html"),
-  },
-  electron: {
-    module: require(path.join(__dirname, "../../../node_modules/electron")),
-  },
+  }
 };

@@ -40,21 +40,12 @@ export class TrojanWindow {
   }
 
   load() {
-    if (this.serve) {
-      this.win.webContents.openDevTools();
-
-      require("electron-reload")(__dirname, {
-        electron: this.options.electron.module,
-      });
-      this.win.loadURL(this.options.local.host);
-    } else {
-      this.win.loadURL(
-        url.format({
-          pathname: this.options.local.file,
-          protocol: "file:",
-          slashes: true,
-        })
-      );
-    }
+    this.win.loadURL(
+      url.format({
+        pathname: this.options.local.file,
+        protocol: "file:",
+        slashes: true,
+      })
+    );
   }
 }
