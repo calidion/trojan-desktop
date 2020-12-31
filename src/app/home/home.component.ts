@@ -118,11 +118,9 @@ export class HomeComponent implements OnInit {
     const cmd = "service";
 
     ipcRenderer.once(cmd, (event, error, message) => {
-      console.log("inside service start", event, error, message);
       if (!error) {
         this.enabled = true;
         this.dismissed = false;
-        console.log("trojan already connected!");
       } else {
         this.enabled = false;
         this.serviceError = error;
@@ -193,7 +191,6 @@ export class HomeComponent implements OnInit {
         title,
         body: message ? message : title
       }
-      console.log(options);
       try {
         const notify = new remote.Notification(options);
         notify.show();
@@ -204,7 +201,6 @@ export class HomeComponent implements OnInit {
   }
 
   onDisConnect(): void {
-    console.log("inside on dis connect");
     return this.disconnect(this.execFile, this.configFile);
   }
   onConnect(): boolean {
@@ -231,36 +227,28 @@ export class HomeComponent implements OnInit {
   }
 
   distroyProcess(filename: string, configFilename: string): void {
-    console.log("inside distroy process");
     const cmd = "trojan-stop";
     ipcRenderer.send(cmd, filename, configFilename);
     ipcRenderer.once(cmd, (event, error, message) => {
       if (!error) {
         this.connected = false;
-        console.log("trojan disonnected!");
         this.cd.detectChanges();
       }
-      console.log("inside ipc render on close", event, error, message);
     });
   }
 
   createProcess(filename: string, configFilename: string): void {
     const cmd = "trojan-run";
-    console.log("insde creating process");
     ipcRenderer.send(cmd, filename, configFilename);
     ipcRenderer.on(cmd, (event, error, message) => {
-      console.log("inside renders");
-      // console.log(arguments);
       if (!error) {
         this.connected = true;
-        console.log("trojan already connected!");
       } else {
         this.connected = false;
         this.connectError = error;
         this.connectMessage = message.message;
       }
       this.cd.detectChanges();
-      console.log("inside ipc render on run : ", event, error, message);
     });
   }
 
@@ -297,7 +285,6 @@ export class HomeComponent implements OnInit {
   }
 
   save(filename, config): void {
-    console.log("save", filename, config);
     try {
       const fd = openSync(filename, "w");
       writeFileSync(fd, JSON.stringify(config));
@@ -339,10 +326,8 @@ export class HomeComponent implements OnInit {
           { name: '*', extensions: ['*'] }
         ]
       });
-      console.log(userChosenPath)
 
       if (!userChosenPath) {
-        console.log("file not choosen");
         return;
       } else {
         this.configFile = userChosenPath;
@@ -353,19 +338,16 @@ export class HomeComponent implements OnInit {
 
   closeError() {
     this.connectError = false;
-    console.log("inside close Error");
     this.cd.detectChanges();
   }
 
   closeServiceError() {
     this.serviceError = false;
-    console.log("inside close service Error");
     this.cd.detectChanges();
   }
 
   closeEnableError() {
     this.dismissed = true;
-    console.log("inside dismiss Error");
     this.cd.detectChanges();
   }
 }

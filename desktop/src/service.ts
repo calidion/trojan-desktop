@@ -12,7 +12,6 @@ export class ShellService {
     return new Promise((resolve, reject) => {
       const pid = exec(cmdStr, (error: ExecException, stdout: string, stderr: string) => {
 
-        console.log(error, stderr);
         if (error) {
           console.error(errorStr, error);
           reject({ error, stderr });
@@ -42,13 +41,5 @@ export class ShellService {
     const cmdStr: string = "systemctl --no-pager status " + this.name;
     const errorStr: string = "Error status service!";
     return await ShellService.exec(cmdStr, errorStr);
-    // if (data.error) {
-    //   const { stderr } = data;
-    //   if (stderr.indexOf("Active: active (running)")) {
-    //     return { error: false, stderr };
-    //   }
-    // }
-    // return data;
-
   }
 }

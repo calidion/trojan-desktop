@@ -15,15 +15,6 @@ export class AppComponent {
     private title: Title
   ) {
     this.translate.setDefaultLang("zh");
-    this.showEnv(this.electronService.isElectron);
-  }
-
-  showEnv(env: boolean) {
-    if (env) {
-      console.log("Run in electron");
-    } else {
-      console.log("Run in browser");
-    }
   }
 
   ngOnInit(): void {

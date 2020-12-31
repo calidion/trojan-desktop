@@ -30,7 +30,6 @@ declare global {
 }
 
 global.alert = function (title: string) {
-  console.log("inside alert", title);
 };
 
 describe("HomeComponent", () => {

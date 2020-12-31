@@ -1,4 +1,4 @@
-import { app } from "electron";
+import { app, Menu } from "electron";
 import { initTray } from './tray';
 import { Messager } from './message';
 import { TrojanWindow } from './window';
@@ -29,6 +29,8 @@ export class TrojanClientApplication {
       app.on("ready", () => {
         initTray(options, app);
         messager.init();
+        const menu = Menu.buildFromTemplate([]);
+        Menu.setApplicationMenu(menu);
 
         setTimeout(() => {
           this.win.create();

@@ -34,7 +34,6 @@ export class Trojan {
         cb(true, stderr);
         return;
       }
-      console.log(stdout);
       cb(stdout)
     });
     if (!pid) {
@@ -57,7 +56,6 @@ export class Trojan {
           cmdStr = "kill -9 " + pid;
           errorStr = "Error kill process:" + pid;
           data = await ShellService.exec(cmdStr, errorStr);
-          console.log("data: ", data);
         } else {
           if (await isPortTaken(json.local_port)) {
             console.error("Port is taken by other user!");
